@@ -1,0 +1,84 @@
+const { Configuration, OpenAIApi } = require("openai");
+const { PassThrough } = require("stream");
+require('dotenv').config();
+
+const ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
+const API_KEY = process.env.AZURE_OPENAI_API_KEY;
+const DEPLOYMENT_NAME = process.env.AZURE_OPENAI_DEPLOYMENT_NAME;
+const API_VERSION = process.env.AZURE_OPENAI_API_VERSION;
+
+const configuration = new Configuration({
+  apiKey: API_KEY,
+  basePath: ENDPOINT + "/openai/deployments/" + DEPLOYMENT_NAME,
+  baseOptions: {
+    headers: {
+      "api-key": API_KEY,
+    },
+    params: {
+      "api-version": API_VERSION,
+    },
+  },
+});
+
+const openai = new OpenAIApi(configuration);
+
+exports.convertSQLToPySpark = async (req, res) => {
+  try {
+    const { sqlQuery } = req.body;
+    const completion = await openai.createChatCompletion({
+      messages: [
+        { role: "system", content: "You are a SQL to Pyspark converter, Reject any requests if not related." },
+        { role: "user", content: `${sqlQuery}` }
+      ],
+      max_tokens: 200,
+      temperature: 0.5,
+      stream: true,
+    }, { responseType: "stream" });
+
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive'
+    });
+
+    completion.data.on('data', (chunk) => {
+      const payloads = chunk
+        .toString()
+        .split("\n\n")
+        .filter(Boolean);
+
+      for (const payload of payloads) {
+        if (payload.includes("[DONE]")) {
+          console.log("\nStream completed.");
+          return;
+        }
+        if (payload.startsWith("data:")) {
+          const data = payload.replace(/^data: /, "");
+          try {
+            const parsed = JSON.parse(data);
+            const content = parsed.choices[0].delta.content;
+            if (content) {
+              res.write(`data: ${content}\n\n`);
+            }
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+          }
+        }
+      }
+    });
+
+    completion.data.on('end', () => {
+      console.log("\nStream ended.");
+      res.write("data: Conversion completed successfully!\n\n");
+      res.end();
+    });
+
+    completion.data.on('error', (error) => {
+      console.error("Stream error:", error);
+      res.status(500).send("Error converting SQL to PySpark: " + error.message);
+    });
+  } catch (error) {
+    console.error("Error:", error.response ? error.response.data : error.message);
+    res.status(500).send("Error converting SQL to PySpark: " + error.message);
+  }
+};
