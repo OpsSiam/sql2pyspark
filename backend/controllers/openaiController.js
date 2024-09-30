@@ -15,7 +15,7 @@ exports.convertSQLToPySpark = async (req, res) => {
   try {
     const response = await openai.createCompletion(
       {
-        prompt: `${process.env.AZURE_OPENAI_PROMPT}\n\nSQL Query:\n${sqlQuery}`,
+        prompt: `${process.env.AZURE_OPENAI_PROMPT}\n\n${sqlQuery}`,
         max_tokens: 500,
         temperature: 0.5,
       },
