@@ -12,11 +12,14 @@ function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, 
 
     let currentSessionId = sessionId;
 
+    // If there's no session, create a new one using the first message as the title
     if (!currentSessionId) {
       try {
-        const response = await axios.post('http://localhost:5001/api/sessions', {});
-        currentSessionId = response.data.sessionId;
-        setSessionId(currentSessionId);
+        const response = await axios.post('http://localhost:5001/api/sessions', {
+          title: input // Use the first message as the session title
+        });
+        currentSessionId = response.data.id;
+        setSessionId(currentSessionId); // Store the new session ID
       } catch (error) {
         console.error('Error creating session:', error);
         return;
@@ -29,7 +32,7 @@ function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, 
     setIsSending(true);
 
     let assistantMessage = { role: 'assistant', content: '' };
-    addMessage(assistantMessage); // Initially add an empty assistant message
+    addMessage(assistantMessage); // Add an empty assistant message
 
     try {
       const response = await fetch('http://localhost:5001/api/chat', {

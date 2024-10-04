@@ -3,24 +3,15 @@ const db = require('../db/database');
 
 // Create a new session
 exports.createSession = (req, res) => {
-    let { topic } = req.body;
-  
-    if (!topic) {
-      topic = 'New Chat'; // Default topic if none provided
+  const { title } = req.body; // Get the title (first message) from the request body
+  db.run('INSERT INTO sessions (title) VALUES (?)', [title], function (err) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json({ id: this.lastID }); // Return the new session ID
     }
-  
-    db.run(
-      'INSERT INTO sessions (topic) VALUES (?)',
-      [topic],
-      function (err) {
-        if (err) {
-          res.status(500).json({ error: err.message });
-        } else {
-          res.json({ sessionId: this.lastID, topic });
-        }
-      }
-    );
-  };
+  });
+};
 
 // Get all sessions
 exports.getSessions = (req, res) => {
