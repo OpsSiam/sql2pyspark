@@ -1,3 +1,4 @@
+/* Existing Message Layout */
 .message {
   display: flex;
   margin-bottom: 15px;
@@ -26,11 +27,10 @@
   color: white;
 }
 
-/* Message.css */
-
-/* General Styling for Code Snippets */
+/* Code Snippet Styling */
 .code-snippet-container {
   margin: 10px 0;
+  max-width: 100%; /* Ensure code snippets don't overflow the message bubble */
 }
 
 .code-language-title {
@@ -44,14 +44,23 @@
   text-transform: capitalize;
 }
 
+/* Ensure the pre and code block fit nicely within the message content */
 pre {
   background-color: #2d2d2d;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 12px;
+  border-radius: 0 0 12px 12px; /* Rounded corners match the message bubble */
   color: #f8f8f2;
   overflow-x: auto;
   font-family: 'Courier New', Courier, monospace;
-  margin-top: 0;
+  margin: 0;
+  box-shadow: none; /* Remove the shadow for pre elements */
+  white-space: pre-wrap; /* Allow wrapping for long lines */
+  word-wrap: break-word;
+}
+
+.message-content pre {
+  background-color: #1e1e1e; /* Slightly darker for contrast with the message content */
+  border-radius: 8px; /* Consistent corner radius for code blocks */
 }
 
 /* Language-Specific Coloring */
@@ -169,4 +178,100 @@ pre {
 /* Powershell */
 .language-powershell code {
   color: #2b7489;
+}
+
+
+/* Message.css */
+
+/* Positioning for the copy button */
+.code-snippet-container {
+  position: relative; /* Make container relative to position the button */
+  margin: 10px 0;
+  max-width: 100%; /* Ensure code snippets don't overflow the message bubble */
+}
+
+.code-language-title {
+  background-color: #44475a;
+  color: #f8f8f2;
+  padding: 5px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Styling for the copy button */
+.copy-button {
+  background-color: #44475a;
+  color: #f8f8f2;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+
+.copy-button:hover {
+  background-color: #6272a4;
+}
+
+.copy-status {
+  background-color: transparent;
+  color: #4caf50; /* Green color for the "Copied" status */
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.copy-status .copy-icon {
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+
+/* Styling for code blocks */
+pre {
+  background-color: #2d2d2d;
+  padding: 12px;
+  border-radius: 0 0 12px 12px;
+  color: #f8f8f2;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  margin-top: 0;
+  box-shadow: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.message-content pre {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+}
+
+/* Language-Specific Coloring */
+
+/* JavaScript */
+.language-javascript code {
+  color: #f1e05a;
+}
+
+/* Python */
+.language-python code {
+  color: #3572A5;
+}
+
+/* Additional language styles omitted for brevity... */
+.code-header {
+  display: flex;
+  justify-content: space-between; /* Align items horizontally */
+  align-items: center; /* Vertically align the title and button */
+  background-color: #44475a;
+  padding: 5px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
 }
