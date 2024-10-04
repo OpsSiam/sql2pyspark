@@ -10,7 +10,7 @@ function Message({ message }) {
     return parts.map((part, index) => {
       if (part.startsWith('```') && part.endsWith('```')) {
         // Extract the language and code block's content
-        const codeBlock = part.slice(3, -3).trim(); // Remove the surrounding ```
+        let codeBlock = part.slice(3, -3).trim(); // Remove the surrounding ```
         const languageMatch = codeBlock.match(/^(\w+)\n/); // Match language identifier at the start of the code block
         let language = '';
         let code = codeBlock;
@@ -24,7 +24,7 @@ function Message({ message }) {
         return (
           <div key={index} className="code-snippet-container">
             {language && <div className="code-language-title">{language}</div>} {/* Show the detected language */}
-            <pre className="code-block">
+            <pre className={`code-block language-${language}`}>
               <code>{code}</code>
             </pre>
           </div>

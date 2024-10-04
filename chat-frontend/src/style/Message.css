@@ -26,6 +26,9 @@
   color: white;
 }
 
+/* Message.css */
+
+/* General Styling for Code Snippets */
 .code-snippet-container {
   margin: 10px 0;
 }
@@ -39,15 +42,131 @@
   font-size: 12px;
   font-weight: bold;
   text-transform: capitalize;
-  margin-bottom: 0; /* Remove the margin to avoid gap */
 }
 
-.code-block {
+pre {
   background-color: #2d2d2d;
-  color: #f8f8f2;
   padding: 10px;
-  border-radius: 0 0 5px 5px; /* Rounded corners on the bottom */
+  border-radius: 5px;
+  color: #f8f8f2;
   overflow-x: auto;
   font-family: 'Courier New', Courier, monospace;
-  margin-top: 0; /* Ensure there's no gap between title and code block */
+  margin-top: 0;
+}
+
+/* Language-Specific Coloring */
+
+/* JavaScript */
+.language-javascript code {
+  color: #f1e05a;
+}
+
+/* Python */
+.language-python code {
+  color: #3572A5;
+}
+
+/* Java */
+.language-java code {
+  color: #b07219;
+}
+
+/* Ruby */
+.language-ruby code {
+  color: #701516;
+}
+
+/* Go */
+.language-go code {
+  color: #00ADD8;
+}
+
+/* HTML */
+.language-html code {
+  color: #e34c26;
+}
+
+/* CSS */
+.language-css code {
+  color: #563d7c;
+}
+
+/* SQL */
+.language-sql code {
+  color: #c586c0;
+}
+
+/* C++ */
+.language-cpp code {
+  color: #f34b7d;
+}
+
+/* C# */
+.language-csharp code {
+  color: #178600;
+}
+
+/* PHP */
+.language-php code {
+  color: #4F5D95;
+}
+
+/* TypeScript */
+.language-typescript code {
+  color: #2b7489;
+}
+
+/* Shell */
+.language-shell code {
+  color: #89e051;
+}
+
+/* Swift */
+.language-swift code {
+  color: #ffac45;
+}
+
+/* Rust */
+.language-rust code {
+  color: #dea584;
+}
+
+/* Kotlin */
+.language-kotlin code {
+  color: #a97bff;
+}
+
+/* Perl */
+.language-perl code {
+  color: #0298c3;
+}
+
+/* Dart */
+.language-dart code {
+  color: #00B4AB;
+}
+
+/* Markdown */
+.language-markdown code {
+  color: #083fa1;
+}
+
+/* Bash */
+.language-bash code {
+  color: #89e051;
+}
+
+/* YAML */
+.language-yaml code {
+  color: #cb171e;
+}
+
+/* JSON */
+.language-json code {
+  color: #e44b23;
+}
+
+/* Powershell */
+.language-powershell code {
+  color: #2b7489;
 }
