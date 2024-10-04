@@ -1,3 +1,4 @@
+/* Sidebar.css */
 .sidebar {
   background-color: #202123;
   color: #fff;
@@ -6,27 +7,8 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto;
   max-height: 100vh; /* Ensure the sidebar doesn’t overflow the viewport */
-}
-
-h2 {
-  color: white;
-}
-
-.new-conversation-button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.new-conversation-button:hover {
-  background-color: #0056b3;
 }
 
 .session-list {
@@ -40,17 +22,51 @@ h2 {
 .session-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 10px;
   background-color: #343541;
   margin-bottom: 5px;
   border-radius: 5px;
   cursor: pointer;
+  position: relative;
 }
 
 .session-item.active {
   background-color: #454654;
 }
 
-.session-item:hover {
+.session-title {
+  flex-grow: 1;
+}
+
+.three-dots {
+  display: inline-block; /* Always present but hidden initially */
+  cursor: pointer;
+  padding: 5px;
+}
+
+.session-item:hover .three-dots {
+  display: inline-block; /* Show three-dots on hover */
+}
+
+.dropdown {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background-color: #2d2f38;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.dropdown div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dropdown div:hover {
   background-color: #3e3f4b;
 }

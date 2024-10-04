@@ -44,6 +44,28 @@ function App() {
     setSessions((prevSessions) => [newSession, ...prevSessions]); // Add new session to the top of the list
   };
 
+  // Handle deleting a session
+  const onDeleteSession = async (sessionId) => {
+    try {
+      await axios.delete(`http://localhost:5001/api/sessions/${sessionId}`);
+      setSessions((prevSessions) => prevSessions.filter(session => session.id !== sessionId));
+    } catch (error) {
+      console.error('Error deleting session:', error);
+    }
+  };
+
+  // Handle renaming a session
+  const onRenameSession = async (sessionId, newTitle) => {
+    try {
+      await axios.put(`http://localhost:5001/api/sessions/${sessionId}`, { title: newTitle });
+      setSessions((prevSessions) => prevSessions.map(session => (
+        session.id === sessionId ? { ...session, title: newTitle } : session
+      )));
+    } catch (error) {
+      console.error('Error renaming session:', error);
+    }
+  };
+
   // Handle selecting a session and loading its messages
   const handleSelectSession = async (id) => {
     try {
@@ -64,6 +86,8 @@ function App() {
           setMessages([]);
           setSessionId(null);
         }}
+        onDeleteSession={onDeleteSession}
+        onRenameSession={onRenameSession}
       />
       <div className="main-content">
         <ChatWindow messages={messages} />
