@@ -107,13 +107,19 @@ exports.chatHandler = async (req, res) => {
 // Get messages for a session
 exports.getMessages = (req, res) => {
   const sessionId = req.params.sessionId;
+
   db.all(
     'SELECT role, content, created_at FROM messages WHERE session_id = ? ORDER BY created_at ASC',
     [sessionId],
     (err, rows) => {
       if (err) {
+        console.error('Error fetching messages:', err.message);
         res.status(500).json({ error: err.message });
+      } else if (rows.length === 0) {
+        console.log(`No messages found for session ID: ${sessionId}`);
+        res.status(404).json({ error: 'No messages found for this session' });
       } else {
+        console.log(`Fetched messages for session ID: ${sessionId}`);
         res.json(rows);
       }
     }

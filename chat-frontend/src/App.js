@@ -39,9 +39,9 @@ function App() {
     });
   };
 
-  // Handle session creation and update session list immediately
-  const handleNewSessionCreated = (newSession) => {
-    setSessions((prevSessions) => [...prevSessions, newSession]);
+  // Handle when a new session is created (move new session to the top)
+  const onNewSessionCreated = (newSession) => {
+    setSessions((prevSessions) => [newSession, ...prevSessions]); // Add new session to the top of the list
   };
 
   // Handle selecting a session and loading its messages
@@ -60,6 +60,10 @@ function App() {
       <Sidebar
         sessions={sessions}
         onSelectSession={handleSelectSession}
+        onNewSession={() => {
+          setMessages([]);
+          setSessionId(null);
+        }}
       />
       <div className="main-content">
         <ChatWindow messages={messages} />
@@ -68,8 +72,8 @@ function App() {
           updateLastMessage={updateLastMessage}
           sessionId={sessionId}
           setSessionId={setSessionId}
+          onNewSessionCreated={onNewSessionCreated} // Pass this function to update the session list
           messages={messages}
-          onNewSessionCreated={handleNewSessionCreated} // Pass handleNewSessionCreated
         />
       </div>
     </div>

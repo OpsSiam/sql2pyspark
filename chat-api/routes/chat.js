@@ -7,6 +7,7 @@ const {
   } = require('../controllers/chatController');
 const { body, validationResult } = require('express-validator');
 
+// Post message route
 router.post(
   '/',
   [
@@ -23,6 +24,7 @@ router.post(
   chatHandler
 );
 
-router.get('/:sessionId', getMessages);
+// Update the GET route to match the correct URL pattern for fetching messages
+router.get('/:sessionId/messages', getMessages);
 
 module.exports = router;

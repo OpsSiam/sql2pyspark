@@ -1,11 +1,13 @@
 .sidebar {
   background-color: #202123;
-  color: white;
-  width: 250px;
-  padding: 20px;
+  color: #fff;
+  width: 260px;
+  padding: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 100vh; /* Ensure the sidebar doesn’t overflow the viewport */
 }
 
 h2 {
@@ -28,20 +30,27 @@ h2 {
 }
 
 .session-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
   margin: 0;
+  flex-grow: 1;
+  overflow-y: auto; /* Add scrolling for session list */
 }
 
 .session-item {
+  display: flex;
+  align-items: center;
   padding: 10px;
-  margin-bottom: 10px;
   background-color: #343541;
-  color: white;
+  margin-bottom: 5px;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.session-item:hover {
+.session-item.active {
   background-color: #454654;
+}
+
+.session-item:hover {
+  background-color: #3e3f4b;
 }
