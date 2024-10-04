@@ -42,7 +42,7 @@ function Message({ message }) {
                 </div>
               ) : (
                 <button className="copy-button" onClick={() => handleCopy(code, index)}>
-                  Copy
+                  Copy Code
                 </button>
               )}
             </div>
