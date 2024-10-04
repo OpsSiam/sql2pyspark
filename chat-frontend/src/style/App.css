@@ -1,4 +1,5 @@
 .app {
+  font-family: 'Inter', sans-serif;
   display: flex;
   height: 100vh;
   background-color: #121212; /* Dark background for the entire app */

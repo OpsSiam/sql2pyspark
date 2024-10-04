@@ -51,7 +51,7 @@ pre {
   border-radius: 0 0 12px 12px; /* Rounded corners match the message bubble */
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Inter', sans-serif;
   margin: 0;
   box-shadow: none; /* Remove the shadow for pre elements */
   white-space: pre-wrap; /* Allow wrapping for long lines */
@@ -211,6 +211,7 @@ pre {
   cursor: pointer;
   font-size: 12px;
   font-weight: bold;
+  font-family: 'Inter', sans-serif;
 }
 
 
@@ -223,6 +224,7 @@ pre {
   color: #4caf50; /* Green color for the "Copied" status */
   font-size: 12px;
   font-weight: bold;
+  font-family: 'Inter', sans-serif;
 }
 
 .copy-status .copy-icon {
@@ -238,7 +240,7 @@ pre {
   border-radius: 0 0 12px 12px;
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Inter', sans-serif;
   margin-top: 0;
   box-shadow: none;
   white-space: pre-wrap;

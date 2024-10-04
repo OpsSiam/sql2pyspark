@@ -38,7 +38,7 @@ function Message({ message }) {
               {language && <div className="code-language-title">{language}</div>}
               {copyStatus[index] ? (
                 <div className="copy-status">
-                  <span className="copy-icon">✔</span> Copied
+                  <span className="copy-icon">✔</span> Copied !
                 </div>
               ) : (
                 <button className="copy-button" onClick={() => handleCopy(code, index)}>
