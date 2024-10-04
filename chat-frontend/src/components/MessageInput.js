@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../style/MessageInput.css';
 
-function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, messages }) {
+function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, messages, onNewSessionCreated }) { // Pass onNewSessionCreated
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
 
@@ -20,6 +20,10 @@ function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, 
         });
         currentSessionId = response.data.id;
         setSessionId(currentSessionId); // Store the new session ID
+
+        // Call the onNewSessionCreated function to immediately update the session list
+        onNewSessionCreated({ id: currentSessionId, title: input });
+
       } catch (error) {
         console.error('Error creating session:', error);
         return;
@@ -32,7 +36,7 @@ function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, 
     setIsSending(true);
 
     let assistantMessage = { role: 'assistant', content: '' };
-    addMessage(assistantMessage); // Add an empty assistant message
+    addMessage(assistantMessage); // Initially add an empty assistant message
 
     try {
       const response = await fetch('http://localhost:5001/api/chat', {

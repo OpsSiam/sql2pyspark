@@ -39,17 +39,9 @@ function App() {
     });
   };
 
-  // Function to create a new session (via API)
-  const handleNewSession = async () => {
-    try {
-      const response = await axios.post('http://localhost:5001/api/sessions', { title: `Session ${sessions.length + 1}` });
-      const newSession = response.data;
-      setSessions([...sessions, newSession]);
-      setMessages([]); // Clear the messages for the new session
-      setSessionId(newSession.id); // Set the new session ID
-    } catch (error) {
-      console.error('Error creating new session:', error);
-    }
+  // Handle session creation and update session list immediately
+  const handleNewSessionCreated = (newSession) => {
+    setSessions((prevSessions) => [...prevSessions, newSession]);
   };
 
   // Handle selecting a session and loading its messages
@@ -68,7 +60,6 @@ function App() {
       <Sidebar
         sessions={sessions}
         onSelectSession={handleSelectSession}
-        onNewSession={handleNewSession}
       />
       <div className="main-content">
         <ChatWindow messages={messages} />
@@ -78,6 +69,7 @@ function App() {
           sessionId={sessionId}
           setSessionId={setSessionId}
           messages={messages}
+          onNewSessionCreated={handleNewSessionCreated} // Pass handleNewSessionCreated
         />
       </div>
     </div>
