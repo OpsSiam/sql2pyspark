@@ -1,0 +1,47 @@
+.sidebar {
+  background-color: #202123;
+  color: white;
+  width: 250px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  color: white;
+}
+
+.new-conversation-button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.new-conversation-button:hover {
+  background-color: #0056b3;
+}
+
+.session-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.session-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #343541;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.session-item:hover {
+  background-color: #454654;
+}

@@ -1,4 +1,6 @@
+// Message.js
 import React from 'react';
+import '../style/Message.css';
 
 function Message({ message }) {
   return (

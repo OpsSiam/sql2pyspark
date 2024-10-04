@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import '../css/FileUpload.css'; 
 
 function FileUpload() {
   const handleFileUpload = async (event) => {
@@ -8,7 +9,7 @@ function FileUpload() {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/upload', formData, {
+      const response = await axios.post('http://localhost:5001/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
