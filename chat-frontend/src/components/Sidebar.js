@@ -1,15 +1,14 @@
-// Sidebar.js
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../style/Sidebar.css';
 import Modal from './Modal'; // Import the Modal component
 
-function Sidebar({ sessions, onSelectSession, onNewSession, onDeleteSession, onRenameSession }) {
-  const [activeSessionId, setActiveSessionId] = useState(null); // For keeping track of active session
+function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onDeleteSession, onRenameSession }) {
   const [dropdownOpen, setDropdownOpen] = useState(null); // To handle dropdown visibility
   const [isRenaming, setIsRenaming] = useState(null); // To track the renaming state
   const [renameValue, setRenameValue] = useState(''); // Store the rename input value
   const [modalOpen, setModalOpen] = useState(false); // Control modal visibility
   const [sessionToDelete, setSessionToDelete] = useState(null); // Track which session to delete
+  const dropdownRef = useRef(null); // Ref to track the dropdown
 
   // Handle rename session logic
   const handleRenameSession = async (sessionId) => {
@@ -34,13 +33,23 @@ function Sidebar({ sessions, onSelectSession, onNewSession, onDeleteSession, onR
   };
 
   // Handle click outside to close the dropdown
-  const handleClickOutside = () => {
-    setDropdownOpen(null);
-    setIsRenaming(null);
+  const handleClickOutside = (e) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      setDropdownOpen(null); // Close dropdown when clicking outside
+    }
   };
 
+  useEffect(() => {
+    // Add event listener to detect clicks outside the dropdown
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      // Cleanup event listener when component unmounts
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sidebar" onClick={handleClickOutside}>
+    <div className="sidebar">
       <h2>Conversations</h2>
       <button className="new-conversation-button" onClick={onNewSession}>
         + New Conversation
@@ -49,10 +58,8 @@ function Sidebar({ sessions, onSelectSession, onNewSession, onDeleteSession, onR
         {sessions.map((session, index) => (
           <li
             key={session.id}
-            className={`session-item ${activeSessionId === session.id ? 'active' : ''}`}
-            onClick={() => onSelectSession(session.id)}
-            onMouseEnter={() => setActiveSessionId(session.id)}
-            onMouseLeave={() => setActiveSessionId(null)}
+            className={`session-item ${activeSessionId === session.id ? 'active' : ''}`} // Add active class if selected
+            onClick={() => onSelectSession(session.id)} // Clicking on the session selects it
           >
             {isRenaming === session.id ? (
               <input
@@ -70,27 +77,32 @@ function Sidebar({ sessions, onSelectSession, onNewSession, onDeleteSession, onR
             )}
 
             {/* Three dots menu, visible on hover */}
-            <span className="session-menu" onClick={(e) => e.stopPropagation()}>
-              {activeSessionId === session.id && (
-                <span className="three-dots" onClick={() => setDropdownOpen(session.id)}>•••</span>
-              )}
-
-              {/* Dropdown menu, visible on click */}
-              {dropdownOpen === session.id && (
-                <div className="dropdown">
-                  <div
-                    onClick={(e) => {
-                      setIsRenaming(session.id); // Enter renaming state
-                      setRenameValue(session.title); // Pre-fill with current title
-                      setDropdownOpen(null); // Hide the dropdown immediately
-                    }}
-                  >
-                    Rename
-                  </div>
-                  <div onClick={() => openDeleteModal(session)}>Delete</div> {/* Trigger modal on delete */}
-                </div>
-              )}
+            <span
+              className="session-menu"
+              onClick={(e) => {
+                e.stopPropagation();
+                setDropdownOpen(dropdownOpen === session.id ? null : session.id); // Toggle dropdown on click
+              }}
+            >
+              <span className="three-dots">•••</span> {/* Show three dots on hover */}
             </span>
+
+            {/* Dropdown menu, visible on click (not on hover) */}
+            {dropdownOpen === session.id && (
+              <div className="dropdown" ref={dropdownRef}>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsRenaming(session.id); // Enter renaming state
+                    setRenameValue(session.title); // Pre-fill with current title
+                    setDropdownOpen(null); // Hide the dropdown immediately
+                  }}
+                >
+                  Rename
+                </div>
+                <div onClick={() => openDeleteModal(session)}>Delete</div> {/* Trigger modal on delete */}
+              </div>
+            )}
           </li>
         ))}
       </ul>

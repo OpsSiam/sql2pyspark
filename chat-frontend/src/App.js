@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ChatWindow from './components/ChatWindow';
@@ -49,6 +48,11 @@ function App() {
     try {
       await axios.delete(`http://localhost:5001/api/sessions/${sessionId}`);
       setSessions((prevSessions) => prevSessions.filter(session => session.id !== sessionId));
+      // Clear messages if the current session is deleted
+      if (sessionId === sessionId) {
+        setMessages([]);
+        setSessionId(null);
+      }
     } catch (error) {
       console.error('Error deleting session:', error);
     }
@@ -81,6 +85,7 @@ function App() {
     <div className="app">
       <Sidebar
         sessions={sessions}
+        activeSessionId={sessionId} // Pass the active session ID to highlight the session
         onSelectSession={handleSelectSession}
         onNewSession={() => {
           setMessages([]);

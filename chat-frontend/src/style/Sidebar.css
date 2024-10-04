@@ -31,28 +31,33 @@
   position: relative;
 }
 
-.session-item.active {
-  background-color: #454654;
+.session-item.active, /* Style for active (selected) session */
+.session-item:hover { /* Style when hovering over a session */
+  background-color: #454654; /* Darker background for active and hover */
+  font-weight: bold; /* Bold text */
 }
 
 .session-title {
   flex-grow: 1;
 }
 
+/* Three dots */
 .three-dots {
-  display: inline-block; /* Always present but hidden initially */
+  display: none; /* Initially hidden */
   cursor: pointer;
   padding: 5px;
 }
 
+/* Show the three dots when hovering over a session */
 .session-item:hover .three-dots {
-  display: inline-block; /* Show three-dots on hover */
+  display: inline-block;
 }
 
+/* Dropdown menu styling */
 .dropdown {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 10px;
+  top: 25px;
   background-color: #2d2f38;
   border: 1px solid #444;
   border-radius: 5px;
