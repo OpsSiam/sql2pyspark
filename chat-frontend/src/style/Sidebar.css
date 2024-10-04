@@ -1,66 +1,86 @@
 /* Sidebar.css */
+
+/* General Sidebar Styling */
 .sidebar {
-  background-color: #202123;
-  color: #fff;
-  width: 260px;
-  padding: 10px;
+  background-color: #1e1e1e; /* Darker background */
+  color: #fff; /* Text color */
+  width: 260px; /* Adjusted width */
+  padding: 15px 20px; /* Padding around content */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  max-height: 100vh; /* Ensure the sidebar doesn’t overflow the viewport */
+  overflow-y: hidden; /* Disable the default sidebar scroll */
+  border-right: 1px solid #3a3a3a; /* Border to separate sidebar */
+  height: 100vh; /* Full height */
 }
 
+.sidebar h2 {
+  font-size: 18px; /* Larger font for title */
+  font-weight: bold;
+  color: #f0f0f0; /* Slightly lighter title color */
+  margin-bottom: 15px; /* Space below the title */
+  text-align: left; /* Align title to the left */
+}
+
+/* Session List Styling */
 .session-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1;
-  overflow-y: auto; /* Add scrolling for session list */
+  flex-grow: 1; /* Expand the session list */
+  overflow-y: auto; /* Enable scrolling for the session list */
+  height: 100%; /* Ensure the list takes full height */
 }
 
+/* Session Item Styling */
 .session-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  background-color: #343541;
-  margin-bottom: 5px;
-  border-radius: 5px;
+  padding: 8px;
+  background-color: transparent; /* Session background */
+  margin-bottom: 6px; /* Space between sessions */
+  border-radius: 8px; /* Rounded corners */
   cursor: pointer;
+  transition: background-color 0.3s ease;
   position: relative;
 }
 
-.session-item.active, /* Style for active (selected) session */
-.session-item:hover { /* Style when hovering over a session */
-  background-color: #454654; /* Darker background for active and hover */
-  font-weight: bold; /* Bold text */
+.session-item:hover {
+  background-color: #3b3b4f; /* Lighter background on hover */
+}
+
+.session-item.active {
+  background-color: #454654; /* Active session highlight */
+  font-weight: bold;
 }
 
 .session-title {
-  flex-grow: 1;
+  flex-grow: 1; /* Use available space */
+  font-size: 14px; /* Adjust font size */
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Truncate text if it's too long */
 }
 
-/* Three dots */
+/* Three Dots Menu */
 .three-dots {
-  display: none; /* Initially hidden */
+  display: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 0px;
 }
 
-/* Show the three dots when hovering over a session */
 .session-item:hover .three-dots {
-  display: inline-block;
+  display: inline-block; /* Show three dots when hovering */
 }
 
-/* Dropdown menu styling */
 .dropdown {
   position: absolute;
-  right: 10px;
-  top: 25px;
+  right: 15px;
+  top: 40px;
   background-color: #2d2f38;
   border: 1px solid #444;
-  border-radius: 5px;
+  border-radius: 6px;
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -68,10 +88,51 @@
 }
 
 .dropdown div {
-  padding: 5px;
+  padding: 8px;
   cursor: pointer;
+  color: #fff; /* Text color */
 }
 
 .dropdown div:hover {
-  background-color: #3e3f4b;
+  background-color: #4e4f5d; /* Hover color for dropdown items */
+}
+
+/* New Conversation Button */
+.new-conversation-button {
+  background-color: #2e2f38;
+  color: #ffffff;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 15px; /* Space below the button */
+}
+
+.new-conversation-button:hover {
+  background-color: #3a3b4b;
+}
+
+/* Scrollbar styling */
+.session-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.session-list::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.session-list::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 10px;
+}
+
+/* Time Period Styling */
+.time-period {
+  font-size: 14px; /* Reduce font size for time categories */
+  font-weight: bold;
+  color: #cfcfcf; /* Different color for time period */
+  margin-top: 10px; /* Adjust top margin for spacing */
+  margin-bottom: 8px; /* Adjust bottom margin for spacing */
 }

@@ -264,6 +264,11 @@ pre {
   color: #3572A5;
 }
 
+/* Python */
+.language-python code {
+  color: #3572A5;
+}
+
 /* Additional language styles omitted for brevity... */
 .code-header {
   display: flex;
