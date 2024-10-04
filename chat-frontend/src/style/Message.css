@@ -25,3 +25,29 @@
   background-color: #007bff;
   color: white;
 }
+
+.code-snippet-container {
+  margin: 10px 0;
+}
+
+.code-language-title {
+  background-color: #44475a;
+  color: #f8f8f2;
+  padding: 5px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+  margin-bottom: 0; /* Remove the margin to avoid gap */
+}
+
+.code-block {
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  padding: 10px;
+  border-radius: 0 0 5px 5px; /* Rounded corners on the bottom */
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  margin-top: 0; /* Ensure there's no gap between title and code block */
+}

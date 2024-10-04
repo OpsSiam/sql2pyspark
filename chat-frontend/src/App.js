@@ -44,12 +44,12 @@ function App() {
   };
 
   // Handle deleting a session
-  const onDeleteSession = async (sessionId) => {
+  const onDeleteSession = async (sessionIdToDelete) => {
     try {
-      await axios.delete(`http://localhost:5001/api/sessions/${sessionId}`);
-      setSessions((prevSessions) => prevSessions.filter(session => session.id !== sessionId));
+      await axios.delete(`http://localhost:5001/api/sessions/${sessionIdToDelete}`);
+      setSessions((prevSessions) => prevSessions.filter(session => session.id !== sessionIdToDelete));
       // Clear messages if the current session is deleted
-      if (sessionId === sessionId) {
+      if (sessionId === sessionIdToDelete) {
         setMessages([]);
         setSessionId(null);
       }
