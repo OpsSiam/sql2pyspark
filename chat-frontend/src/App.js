@@ -101,7 +101,7 @@ function App() {
           updateLastMessage={updateLastMessage}
           sessionId={sessionId}
           setSessionId={setSessionId}
-          onNewSessionCreated={onNewSessionCreated} // Pass this function to update the session list
+          onNewSessionCreated={onNewSessionCreated} // Pass this function to update the session list in real-time
           messages={messages}
         />
       </div>

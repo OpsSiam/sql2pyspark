@@ -24,7 +24,7 @@ function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, 
         setSessionId(currentSessionId); // Store the new session ID
 
         // Immediately update the session list in the sidebar
-        onNewSessionCreated({ id: currentSessionId, title: input });
+        onNewSessionCreated({ id: currentSessionId, title: input, created_at: new Date().toISOString() }); // Pass session details
       } catch (error) {
         console.error('Error creating session:', error);
         setIsSending(false);
