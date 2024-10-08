@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../style/Sidebar.css';
 import Modal from './Modal'; 
-import { formatDistanceToNow, format, isYesterday, isWithinInterval, subDays } from 'date-fns'; // To handle dates
+import { format, isToday, isYesterday, subDays } from 'date-fns'; // To handle dates
 
 function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onDeleteSession, onRenameSession }) {
   const [dropdownOpen, setDropdownOpen] = useState(null); 
@@ -50,24 +50,20 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
   // Helper functions to categorize sessions by time
   const groupSessionsByTime = (sessions) => {
     const now = new Date();
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const sevenDaysAgo = new Date(now);
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-    const thirtyDaysAgo = new Date(now);
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const yesterday = subDays(now, 1);
+    const sevenDaysAgo = subDays(now, 7);
+    const thirtyDaysAgo = subDays(now, 30);
 
     return {
-      yesterday: sessions.filter(session => new Date(session.created_at) >= yesterday && new Date(session.created_at) < now),
-      previousSevenDays: sessions.filter(session => new Date(session.created_at) >= sevenDaysAgo && new Date(session.created_at) < yesterday),
+      today: sessions.filter(session => isToday(new Date(session.created_at))),
+      yesterday: sessions.filter(session => isYesterday(new Date(session.created_at))),
+      previousSevenDays: sessions.filter(session => new Date(session.created_at) >= sevenDaysAgo && !isToday(new Date(session.created_at)) && !isYesterday(new Date(session.created_at))),
       previousThirtyDays: sessions.filter(session => new Date(session.created_at) >= thirtyDaysAgo && new Date(session.created_at) < sevenDaysAgo),
       older: sessions.filter(session => new Date(session.created_at) < thirtyDaysAgo),
     };
   };
 
-  const { yesterday, previousSevenDays, previousThirtyDays, older } = groupSessionsByTime(sessions);
+  const { today, yesterday, previousSevenDays, previousThirtyDays, older } = groupSessionsByTime(sessions);
 
   return (
     <div className="sidebar">
@@ -77,6 +73,56 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
       </button>
 
       <ul className="session-list">
+        {/* Today's Sessions */}
+        {today.length > 0 && today.map((session, index) => (
+          <li
+            key={session.id}
+            className={`session-item ${activeSessionId === session.id ? 'active' : ''}`}
+            onClick={() => onSelectSession(session.id)}
+          >
+            {isRenaming === session.id ? (
+              <input
+                type="text"
+                value={renameValue}
+                autoFocus
+                onChange={(e) => setRenameValue(e.target.value)}
+                onBlur={() => handleRenameSession(session.id)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleRenameSession(session.id);
+                }}
+              />
+            ) : (
+              <span className="session-title">
+                {session.title || `Conversation ${index + 1}`}
+              </span>
+            )}
+            <span
+              className="session-menu"
+              onClick={(e) => {
+                e.stopPropagation();
+                setDropdownOpen(dropdownOpen === session.id ? null : session.id);
+              }}
+            >
+              <span className="three-dots">•••</span>
+            </span>
+            {dropdownOpen === session.id && (
+              <div className="dropdown" ref={dropdownRef}>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsRenaming(session.id);
+                    setRenameValue(session.title);
+                    setDropdownOpen(null);
+                  }}
+                >
+                  Rename
+                </div>
+                <div onClick={() => openDeleteModal(session)}>Delete</div>
+              </div>
+            )}
+          </li>
+        ))}
+
         {/* Yesterday's Sessions */}
         {yesterday.length > 0 && (
           <>
