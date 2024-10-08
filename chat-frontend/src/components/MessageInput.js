@@ -8,26 +8,21 @@ function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, 
   const [isSending, setIsSending] = useState(false);
 
   const sendMessage = async () => {
-    if (input.trim() === '') return; // Prevent sending empty messages
-
-    setIsSending(true); // Lock the input while sending
-
+    if (input.trim() === '') return;
+  
     let currentSessionId = sessionId;
-
-    // If there's no session, create a new one and immediately send the first message
+  
     if (!currentSessionId) {
       try {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; // รับ Timezone จาก browser
         const response = await axios.post('http://localhost:5001/api/sessions', {
-          title: input // Use the first message as the session title
+          title: input,
+          timezone // ส่ง timezone ไปที่ server
         });
         currentSessionId = response.data.id;
-        setSessionId(currentSessionId); // Store the new session ID
-
-        // Immediately update the session list in the sidebar
-        onNewSessionCreated({ id: currentSessionId, title: input, created_at: new Date().toISOString() }); // Pass session details
+        setSessionId(currentSessionId);
       } catch (error) {
         console.error('Error creating session:', error);
-        setIsSending(false);
         return;
       }
     }

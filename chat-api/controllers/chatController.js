@@ -7,13 +7,26 @@ exports.chatHandler = async (req, res) => {
   const { messages, sessionId } = req.body;
 
   try {
-    // Save user message to database
+    // Extract the user message from the last message
     const userMessage = messages[messages.length - 1];
-    db.run(
-      'INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)',
-      [sessionId, userMessage.role, userMessage.content]
-    );
 
+    // Check if this message is a file upload or a regular text message
+    if (userMessage.content.startsWith('Uploaded file:')) {
+      // Extract the first line (file name) from the combined message
+      const firstLine = userMessage.content.split('\n')[0]; // "Uploaded file: filename.extension"
+
+      // Store only the file name in the database
+      db.run(
+        'INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)',
+        [sessionId, userMessage.role, firstLine] // Insert only the first line (file name)
+      );
+    } else {
+      // It's a regular text message: store the message content
+      db.run(
+        'INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)',
+        [sessionId, userMessage.role, userMessage.content] // Store the text message content
+      );
+    }
     // Call Azure OpenAI API
     const response = await axios({
       method: 'post',

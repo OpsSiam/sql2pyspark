@@ -3,11 +3,12 @@ import axios from 'axios';
 import ChatWindow from './components/ChatWindow';
 import MessageInput from './components/MessageInput';
 import Sidebar from './components/Sidebar';
+import FileUpload from './components/FileUpload';
 import './style/App.css';
 
 function App() {
   const [messages, setMessages] = useState([]);
-  const [sessionId, setSessionId] = useState(null); 
+  const [sessionId, setSessionId] = useState(null);
   const [sessions, setSessions] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar open/close
 
@@ -96,6 +97,7 @@ function App() {
       />
       <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         <ChatWindow messages={messages} />
+        <FileUpload sessionId={sessionId} addMessage={addMessage} />         
         <MessageInput
           addMessage={addMessage}
           updateLastMessage={updateLastMessage}
