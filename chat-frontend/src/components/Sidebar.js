@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '../style/Sidebar.css';
 import Modal from './Modal'; 
-import { format, isToday, isYesterday, subDays } from 'date-fns'; // To handle dates
+import { format, isToday, isYesterday, subDays } from 'date-fns'; 
 
-function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onDeleteSession, onRenameSession }) {
+function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onDeleteSession, onRenameSession, isOpen, toggleSidebar }) {
   const [dropdownOpen, setDropdownOpen] = useState(null); 
   const [isRenaming, setIsRenaming] = useState(null); 
   const [renameValue, setRenameValue] = useState(''); 
@@ -11,7 +11,6 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
   const [sessionToDelete, setSessionToDelete] = useState(null); 
   const dropdownRef = useRef(null); 
 
-  // Handle rename session logic
   const handleRenameSession = async (sessionId) => {
     if (renameValue.trim()) {
       await onRenameSession(sessionId, renameValue); 
@@ -20,20 +19,17 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
     setDropdownOpen(null); 
   };
 
-  // Open the delete confirmation modal
   const openDeleteModal = (session) => {
     setSessionToDelete(session);
     setModalOpen(true);
   };
 
-  // Confirm deletion and close the modal
   const confirmDeleteSession = () => {
     onDeleteSession(sessionToDelete.id);
     setModalOpen(false);
     setDropdownOpen(null);
   };
 
-  // Handle click outside to close the dropdown
   const handleClickOutside = (e) => {
     if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
       setDropdownOpen(null); 
@@ -47,7 +43,6 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
     };
   }, []);
 
-  // Helper functions to categorize sessions by time
   const groupSessionsByTime = (sessions) => {
     const now = new Date();
     const yesterday = subDays(now, 1);
@@ -66,7 +61,11 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
   const { today, yesterday, previousSevenDays, previousThirtyDays, older } = groupSessionsByTime(sessions);
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isOpen ? 'open' : ''}`}> 
+      <button className="toggle-sidebar-button" onClick={toggleSidebar}>
+        ☰
+      </button>
+
       <h2>Conversations</h2>
       <button className="new-conversation-button" onClick={onNewSession}>
         + New Conversation

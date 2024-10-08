@@ -2,8 +2,9 @@
   font-family: 'Inter', sans-serif;
   display: flex;
   height: 100vh;
-  background-color: #121212; /* Dark background for the entire app */
+  background-color: #121212;
   color: white;
+  position: relative;
 }
 
 .main-content {
@@ -11,4 +12,45 @@
   display: flex;
   flex-direction: column;
   background-color: #1e1e2f; /* Darker background for the chat area */
+  transition: margin-left 0.3s ease; /* Add transition for smoother effect */
+}
+
+.sidebar-open .main-content {
+  margin-left: 260px; /* Push content to the right when sidebar is open */
+}
+
+.sidebar:not(.open) + .main-content {
+  margin-left: 0; /* Reset margin when sidebar is closed */
+}
+
+.sidebar-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.sidebar-toggle:hover {
+  background-color: #0056b3;
+}
+
+.hamburger-icon {
+  font-size: 24px;
+}
+
+@media screen and (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .sidebar-toggle {
+    left: 10px; /* Adjust toggle button for smaller screens */
+    top: 10px;
+  }
 }

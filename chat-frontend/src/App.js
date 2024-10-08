@@ -7,10 +7,10 @@ import './style/App.css';
 
 function App() {
   const [messages, setMessages] = useState([]);
-  const [sessionId, setSessionId] = useState(null); // Holds the current session ID
+  const [sessionId, setSessionId] = useState(null); 
   const [sessions, setSessions] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar open/close
 
-  // Fetch sessions on component mount
   useEffect(() => {
     const fetchSessions = async () => {
       try {
@@ -20,16 +20,13 @@ function App() {
         console.error('Error fetching sessions:', error);
       }
     };
-
     fetchSessions();
   }, []);
 
-  // Add a new message to the array
   const addMessage = (message) => {
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 
-  // Update the last message in the array (for streaming assistant response)
   const updateLastMessage = (content) => {
     setMessages((prevMessages) => {
       const updatedMessages = [...prevMessages];
@@ -38,17 +35,14 @@ function App() {
     });
   };
 
-  // Handle when a new session is created (move new session to the top)
   const onNewSessionCreated = (newSession) => {
-    setSessions((prevSessions) => [newSession, ...prevSessions]); // Add new session to the top of the list
+    setSessions((prevSessions) => [newSession, ...prevSessions]);
   };
 
-  // Handle deleting a session
   const onDeleteSession = async (sessionIdToDelete) => {
     try {
       await axios.delete(`http://localhost:5001/api/sessions/${sessionIdToDelete}`);
       setSessions((prevSessions) => prevSessions.filter(session => session.id !== sessionIdToDelete));
-      // Clear messages if the current session is deleted
       if (sessionId === sessionIdToDelete) {
         setMessages([]);
         setSessionId(null);
@@ -58,7 +52,6 @@ function App() {
     }
   };
 
-  // Handle renaming a session
   const onRenameSession = async (sessionId, newTitle) => {
     try {
       await axios.put(`http://localhost:5001/api/sessions/${sessionId}`, { title: newTitle });
@@ -70,22 +63,28 @@ function App() {
     }
   };
 
-  // Handle selecting a session and loading its messages
   const handleSelectSession = async (id) => {
     try {
       const response = await axios.get(`http://localhost:5001/api/chat/${id}/messages`);
       setSessionId(id);
-      setMessages(response.data); // Load session messages
+      setMessages(response.data);
     } catch (error) {
       console.error('Error fetching session messages:', error);
     }
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen); // Toggle the sidebar visibility
+  };
+
   return (
-    <div className="app">
+    <div className={`app ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+      <button className="toggle-sidebar-button" onClick={toggleSidebar}>
+        ☰ {/* Hamburger Icon */}
+      </button>
       <Sidebar
         sessions={sessions}
-        activeSessionId={sessionId} // Pass the active session ID to highlight the session
+        activeSessionId={sessionId}
         onSelectSession={handleSelectSession}
         onNewSession={() => {
           setMessages([]);
@@ -93,15 +92,16 @@ function App() {
         }}
         onDeleteSession={onDeleteSession}
         onRenameSession={onRenameSession}
+        isOpen={isSidebarOpen} // Pass the sidebar visibility state
       />
-      <div className="main-content">
+      <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         <ChatWindow messages={messages} />
         <MessageInput
           addMessage={addMessage}
           updateLastMessage={updateLastMessage}
           sessionId={sessionId}
           setSessionId={setSessionId}
-          onNewSessionCreated={onNewSessionCreated} // Pass this function to update the session list in real-time
+          onNewSessionCreated={onNewSessionCreated}
           messages={messages}
         />
       </div>
