@@ -10,7 +10,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   const [sessions, setSessions] = useState([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar open/close
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to manage sidebar open/close
 
   useEffect(() => {
     const fetchSessions = async () => {

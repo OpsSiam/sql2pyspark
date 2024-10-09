@@ -68,7 +68,7 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
 
       <h2>Conversations</h2>
       <button className="new-conversation-button" onClick={onNewSession}>
-        + New Conversation
+      New Chat
       </button>
 
       <ul className="session-list">
