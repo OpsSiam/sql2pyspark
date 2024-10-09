@@ -10,7 +10,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   const [sessions, setSessions] = useState([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to manage sidebar open/close
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -40,10 +40,13 @@ function App() {
     setSessions((prevSessions) => [newSession, ...prevSessions]);
   };
 
+  // Define the onDeleteSession function
   const onDeleteSession = async (sessionIdToDelete) => {
     try {
       await axios.delete(`http://localhost:5001/api/sessions/${sessionIdToDelete}`);
-      setSessions((prevSessions) => prevSessions.filter(session => session.id !== sessionIdToDelete));
+      setSessions((prevSessions) =>
+        prevSessions.filter((session) => session.id !== sessionIdToDelete)
+      );
       if (sessionId === sessionIdToDelete) {
         setMessages([]);
         setSessionId(null);
@@ -53,12 +56,17 @@ function App() {
     }
   };
 
+  // Define the onRenameSession function
   const onRenameSession = async (sessionId, newTitle) => {
     try {
-      await axios.put(`http://localhost:5001/api/sessions/${sessionId}`, { title: newTitle });
-      setSessions((prevSessions) => prevSessions.map(session => (
-        session.id === sessionId ? { ...session, title: newTitle } : session
-      )));
+      await axios.put(`http://localhost:5001/api/sessions/${sessionId}`, {
+        title: newTitle,
+      });
+      setSessions((prevSessions) =>
+        prevSessions.map((session) =>
+          session.id === sessionId ? { ...session, title: newTitle } : session
+        )
+      );
     } catch (error) {
       console.error('Error renaming session:', error);
     }
@@ -75,7 +83,7 @@ function App() {
   };
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen); // Toggle the sidebar visibility
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
@@ -91,13 +99,20 @@ function App() {
           setMessages([]);
           setSessionId(null);
         }}
-        onDeleteSession={onDeleteSession}
-        onRenameSession={onRenameSession}
-        isOpen={isSidebarOpen} // Pass the sidebar visibility state
+        onDeleteSession={onDeleteSession} // Pass the onDeleteSession function
+        onRenameSession={onRenameSession} // Pass the onRenameSession function
+        isOpen={isSidebarOpen}
       />
       <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         <ChatWindow messages={messages} />
-        <FileUpload sessionId={sessionId} addMessage={addMessage} />         
+        <FileUpload
+          sessionId={sessionId}
+          addMessage={addMessage}
+          updateLastMessage={updateLastMessage}
+          setSessionId={setSessionId}
+          messages={messages}
+          onNewSessionCreated={onNewSessionCreated} 
+        />
         <MessageInput
           addMessage={addMessage}
           updateLastMessage={updateLastMessage}

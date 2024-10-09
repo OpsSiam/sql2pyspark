@@ -14,6 +14,7 @@
 
 .message-content {
   background-color: #2a2a43;
+  font-size: 18px;
   color: #e0e0e0;
   padding: 12px;
   border-radius: 12px;
@@ -30,6 +31,7 @@
 /* Code Snippet Styling */
 .code-snippet-container {
   margin: 10px 0;
+  font-size: 16px;
   max-width: 100%; /* Ensure code snippets don't overflow the message bubble */
 }
 
@@ -177,7 +179,7 @@ pre {
 
 /* Powershell */
 .language-powershell code {
-  color: #2b7489;
+  color: #4a6bff;
 }
 
 
@@ -264,9 +266,9 @@ pre {
   color: #3572A5;
 }
 
-/* Python */
-.language-python code {
-  color: #3572A5;
+/* Shell */
+.language-sh code {
+  color: #a0e825;
 }
 
 /* Additional language styles omitted for brevity... */

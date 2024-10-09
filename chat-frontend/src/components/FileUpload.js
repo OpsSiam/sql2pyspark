@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import '../style/FileUpload.css'; 
+import '../style/FileUpload.css';
 
-function FileUpload({ sessionId, addMessage }) {
+function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated }) {
+  const [isSending, setIsSending] = useState(false);
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     let currentSessionId = sessionId;
-    
+
     if (file) {
-      // Read the file content using FileReader
       const reader = new FileReader();
 
       reader.onload = async (e) => {
@@ -16,40 +17,90 @@ function FileUpload({ sessionId, addMessage }) {
 
         const combinedMessage = `Uploaded file: ${file.name}\n\nFile Content:\n${fileContent}\n\nEnd of File Content`;
 
-        // Add the file name as the user message (but don't show the content)
-        const userMessage = { 
-          role: 'user', 
-          content: `Uploaded file: ${file.name}`, // Display the file name and extension
+        // แสดงข้อความจากผู้ใช้เฉพาะชื่อไฟล์ที่อัพโหลด
+        const userMessage = {
+          role: 'user',
+          content: `Uploaded file: ${file.name}`,
         };
         addMessage(userMessage);
 
+        // ถ้ายังไม่มี sessionId ให้สร้าง session ใหม่
+        if (!currentSessionId) {
+          try {
+            const response = await axios.post('http://localhost:5001/api/sessions', {
+              title: `Uploaded file: ${file.name}`,
+            });
+            currentSessionId = response.data.id;
+            setSessionId(currentSessionId);
+            onNewSessionCreated(response.data);
+          } catch (error) {
+            console.error('Error creating session:', error);
+            return;
+          }
+        }
+
+        // เพิ่มข้อความเปล่าจากผู้ช่วยเพื่อให้แสดงผลการตอบกลับ
+        let assistantContent = '';
+        addMessage({ role: 'assistant', content: assistantContent });
+
         try {
-          // Send the file content to the backend as a message
-          const response = await axios.post('http://localhost:5001/api/chat', {
-            messages: [
-              {
-                role: 'user',
-                content: combinedMessage,
-              },
-            ], 
-            sessionId: currentSessionId,
+          setIsSending(true);
+          const response = await fetch('http://localhost:5001/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              messages: [{ role: 'user', content: combinedMessage }],
+              sessionId: currentSessionId,
+            }),
           });
 
-          // Add the AI's response to the chat window
-          const assistantMessage = { role: 'assistant', content: response.data };
-          addMessage(assistantMessage);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder('utf-8');
+
+          // จัดการข้อความที่ตอบกลับแบบ streaming
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split('\n');
+
+            for (let line of lines) {
+              if (line.startsWith('data: ')) {
+                const dataStr = line.replace('data: ', '').trim();
+
+                if (dataStr === '[DONE]') break;
+
+                try {
+                  const data = JSON.parse(dataStr);
+                  const delta = data.content;
+
+                  if (delta) {
+                    assistantContent += delta;
+                    updateLastMessage(assistantContent);
+                  }
+                } catch (e) {
+                  console.error('Error parsing data:', e);
+                }
+              }
+            }
+          }
         } catch (error) {
           console.error('Error sending file content:', error);
+        } finally {
+          setIsSending(false);
         }
       };
 
-      reader.readAsText(file); // Read the file as text (assuming it’s a text file)
+      reader.readAsText(file); // อ่านไฟล์เป็นข้อความ
     }
   };
 
   return (
     <div className="file-upload">
-      <input type="file" onChange={handleFileUpload} />
+      <input type="file" onChange={handleFileUpload} disabled={isSending} />
     </div>
   );
 }

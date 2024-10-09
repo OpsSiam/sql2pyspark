@@ -1,90 +1,111 @@
 // MessageInput.js
 import React, { useState } from 'react';
-import axios from 'axios';
 import '../style/MessageInput.css';
 
-function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, messages, onNewSessionCreated }) {
-  const [input, setInput] = useState('');
-  const [isSending, setIsSending] = useState(false);
+export const sendMessage = async ({
+  content,
+  providedSessionId,
+  sessionId,
+  setSessionId,
+  addMessage,
+  updateLastMessage,
+  messages,
+}) => {
+  if (content.trim() === '') return;
 
-  const sendMessage = async () => {
-    if (input.trim() === '') return;
-  
-    let currentSessionId = sessionId;
-  
-    if (!currentSessionId) {
-      try {
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; // รับ Timezone จาก browser
-        const response = await axios.post('http://localhost:5001/api/sessions', {
-          title: input,
-          timezone // ส่ง timezone ไปที่ server
-        });
-        currentSessionId = response.data.id;
-        setSessionId(currentSessionId);
-      } catch (error) {
-        console.error('Error creating session:', error);
-        return;
-      }
-    }
+  let currentSessionId = providedSessionId || sessionId;
 
-    const userMessage = { role: 'user', content: input };
-    addMessage(userMessage); // Add user message immediately to the chat window
-    setInput(''); // Clear the input field
-
-    let assistantMessage = { role: 'assistant', content: '' };
-    addMessage(assistantMessage); // Add an empty assistant message to the chat window
-
-    // Send the message to the backend and process the response
+  if (!currentSessionId) {
     try {
-      const response = await fetch('http://localhost:5001/api/chat', {
+      const response = await fetch('http://localhost:5001/api/sessions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [...messages, userMessage], // Include previous messages and the new user message
-          sessionId: currentSessionId, // Use the correct session ID
-        }),
+        body: JSON.stringify({ title: content }),
       });
+      const sessionData = await response.json();
+      currentSessionId = sessionData.id;
+      setSessionId(currentSessionId);
+    } catch (error) {
+      console.error('Error creating session:', error);
+      return;
+    }
+  }
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  const userMessage = { role: 'user', content };
+  addMessage(userMessage);
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
+  let assistantContent = '';
+  addMessage({ role: 'assistant', content: assistantContent });
 
-      let assistantContent = ''; // Buffer for assistant message content
+  try {
+    const response = await fetch('http://localhost:5001/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: [...messages, userMessage],
+        sessionId: currentSessionId,
+      }),
+    });
 
-      // Handle streaming response
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder('utf-8');
 
-        for (let line of lines) {
-          if (line.startsWith('data: ')) {
-            const dataStr = line.replace('data: ', '').trim();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
 
-            if (dataStr === '[DONE]') break;
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n');
 
-            try {
-              const data = JSON.parse(dataStr);
-              const delta = data.content;
+      for (let line of lines) {
+        if (line.startsWith('data: ')) {
+          const dataStr = line.replace('data: ', '').trim();
 
-              if (delta) {
-                assistantContent += delta;
-                updateLastMessage(assistantContent); // Update the last assistant message content
-              }
-            } catch (e) {
-              console.error('Error parsing data:', e);
+          if (dataStr === '[DONE]') break;
+
+          try {
+            const data = JSON.parse(dataStr);
+            const delta = data.content;
+
+            if (delta) {
+              assistantContent += delta;
+              updateLastMessage(assistantContent);
             }
+          } catch (e) {
+            console.error('Error parsing data:', e);
           }
         }
       }
-    } catch (error) {
-      console.error('Error during message streaming:', error);
-    } finally {
-      setIsSending(false); // Unlock the input once the message has been fully sent
     }
+  } catch (error) {
+    console.error('Error during message streaming:', error);
+  }
+};
+
+function MessageInput({
+  addMessage,
+  updateLastMessage,
+  sessionId,
+  setSessionId,
+  messages,
+}) {
+  const [input, setInput] = useState('');
+  const [isSending, setIsSending] = useState(false);
+
+  const handleSendMessage = async () => {
+    setIsSending(true);
+    await sendMessage({
+      content: input,
+      sessionId,
+      setSessionId,
+      addMessage,
+      updateLastMessage,
+      messages,
+    });
+    setInput('');
+    setIsSending(false);
   };
 
   return (
@@ -94,9 +115,9 @@ function MessageInput({ addMessage, updateLastMessage, sessionId, setSessionId, 
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type your message..."
-        disabled={isSending} // Disable input while sending
+        disabled={isSending}
       />
-      <button onClick={sendMessage} disabled={isSending || input.trim() === ''}>
+      <button onClick={handleSendMessage} disabled={isSending || input.trim() === ''}>
         Send
       </button>
     </div>

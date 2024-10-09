@@ -73,6 +73,7 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
 
       <ul className="session-list">
         {/* Today's Sessions */}
+        <li className="time-period-today">Today</li>
         {today.length > 0 && today.map((session, index) => (
           <li
             key={session.id}
@@ -279,7 +280,7 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
                     >
                       Rename
                     </div>
-                    <div onClick={() => openDeleteModal(session)}>Delete</div>
+                    <div conClick={() => openDeleteModal(session)}>Delete</div>
                   </div>
                 )}
               </li>
