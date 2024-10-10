@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "SQL2PySpark",
+  "name": "Transform Your SQL Queries into PySpark Magic with AI!",
   "icons": [
     {
       "src": "favicon.ico",

@@ -27,7 +27,17 @@ exports.chatHandler = async (req, res) => {
         [sessionId, userMessage.role, userMessage.content] // Store the text message content
       );
     }
-    // Call Azure OpenAI API
+
+    // Add a system message to define the assistant's role or context
+    const systemMessage = {
+      role: 'system',
+      content: process.env.AZURE_OPENAI_PROMPT,
+    };
+
+    // Include the system message with user messages
+    const messageHistory = [systemMessage, ...messages];
+
+    // Call Azure OpenAI API with the updated message history
     const response = await axios({
       method: 'post',
       url: `${process.env.AZURE_OPENAI_ENDPOINT}/openai/deployments/${process.env.AZURE_OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=${process.env.AZURE_OPENAI_API_VERSION}`,
@@ -36,7 +46,7 @@ exports.chatHandler = async (req, res) => {
         'Content-Type': 'application/json',
       },
       data: {
-        messages: messages,
+        messages: messageHistory,
         stream: true, // Ensure streaming is enabled
       },
       responseType: 'stream', // Set response type to stream

@@ -28,7 +28,7 @@
   border-radius: 50%;
   border: .5px solid #fff;
   display: inline-block;
-  margin-top: 20px; /* Adjust this value to fine-tune vertical alignment */
+  margin-top: 10px; /* Adjust this value to fine-tune vertical alignment */
 }
 
 .assistant-response {
