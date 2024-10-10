@@ -8,11 +8,24 @@ import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated }) {
   const [isSending, setIsSending] = useState(false);
 
+  // Define supported file types (e.g., text files)
+  const supportedFileTypes = ['text/plain', 'application/json', 'application/pdf'];
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     let currentSessionId = sessionId;
 
     if (file) {
+      // Check if the file type is supported
+      if (!supportedFileTypes.includes(file.type)) {
+        // Add a friendly rejection message to the assistant's response
+        addMessage({
+          role: 'assistant',
+          content: `I'm sorry, but the file type "${file.type}" is not supported. Please upload a text, JSON, or PDF file.`,
+        });
+        return;
+      }
+
       const reader = new FileReader();
 
       reader.onload = async (e) => {
