@@ -75,7 +75,9 @@
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Truncate text if it's too long */
+  max-width: 90%; /* กำหนดขนาดสูงสุดให้กับข้อความ */
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
 }
 
 /* Three Dots Menu */

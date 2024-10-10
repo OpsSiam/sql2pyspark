@@ -105,14 +105,6 @@ function App() {
       />
       <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
         <ChatWindow messages={messages} />
-        <FileUpload
-          sessionId={sessionId}
-          addMessage={addMessage}
-          updateLastMessage={updateLastMessage}
-          setSessionId={setSessionId}
-          messages={messages}
-          onNewSessionCreated={onNewSessionCreated} 
-        />
         <MessageInput
           addMessage={addMessage}
           updateLastMessage={updateLastMessage}

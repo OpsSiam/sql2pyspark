@@ -1,8 +1,9 @@
+// FileUpload.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../style/FileUpload.css';
 
-function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated }) {
+function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated, disabled}) {
   const [isSending, setIsSending] = useState(false);
 
   const handleFileUpload = async (event) => {
@@ -17,14 +18,12 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
 
         const combinedMessage = `Uploaded file: ${file.name}\n\nFile Content:\n${fileContent}\n\nEnd of File Content`;
 
-        // แสดงข้อความจากผู้ใช้เฉพาะชื่อไฟล์ที่อัพโหลด
         const userMessage = {
           role: 'user',
           content: `Uploaded file: ${file.name}`,
         };
         addMessage(userMessage);
 
-        // ถ้ายังไม่มี sessionId ให้สร้าง session ใหม่
         if (!currentSessionId) {
           try {
             const response = await axios.post('http://localhost:5001/api/sessions', {
@@ -39,7 +38,6 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
           }
         }
 
-        // เพิ่มข้อความเปล่าจากผู้ช่วยเพื่อให้แสดงผลการตอบกลับ
         let assistantContent = '';
         addMessage({ role: 'assistant', content: assistantContent });
 
@@ -59,7 +57,6 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
           const reader = response.body.getReader();
           const decoder = new TextDecoder('utf-8');
 
-          // จัดการข้อความที่ตอบกลับแบบ streaming
           while (true) {
             const { value, done } = await reader.read();
             if (done) break;
@@ -94,13 +91,13 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
         }
       };
 
-      reader.readAsText(file); // อ่านไฟล์เป็นข้อความ
+      reader.readAsText(file);
     }
   };
 
   return (
     <div className="file-upload">
-      <input type="file" onChange={handleFileUpload} disabled={isSending} />
+      <input type="file" onChange={handleFileUpload} disabled={disabled} />
     </div>
   );
 }

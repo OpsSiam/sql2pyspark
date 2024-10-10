@@ -1,6 +1,7 @@
 // MessageInput.js
 import React, { useState } from 'react';
 import '../style/MessageInput.css';
+import FileUpload from './FileUpload';
 
 export const sendMessage = async ({
   content,
@@ -90,34 +91,59 @@ function MessageInput({
   sessionId,
   setSessionId,
   messages,
+  onNewSessionCreated,
 }) {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
 
   const handleSendMessage = async () => {
-    setIsSending(true);
-    await sendMessage({
-      content: input,
-      sessionId,
-      setSessionId,
-      addMessage,
-      updateLastMessage,
-      messages,
-    });
-    setInput('');
-    setIsSending(false);
+    if (input.trim()) {
+      setIsSending(true);
+      await sendMessage({
+        content: input,
+        sessionId,
+        setSessionId,
+        addMessage,
+        updateLastMessage,
+        messages,
+      });
+      setInput('');
+      setIsSending(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    } else if (e.key === 'Enter' && e.shiftKey) {
+      e.preventDefault();
+      setInput((prevInput) => prevInput + '\n');
+    }
   };
 
   return (
-    <div className="message-input">
-      <input
-        type="text"
+    <div className="message-input-container">
+      <FileUpload
+        sessionId={sessionId}
+        addMessage={addMessage}
+        setSessionId={setSessionId}
+        updateLastMessage={updateLastMessage}
+        onNewSessionCreated={onNewSessionCreated}
+        disabled={isSending}
+      />
+      <textarea
+        className="message-input"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type your message..."
         disabled={isSending}
+        onKeyDown={handleKeyDown}
       />
-      <button onClick={handleSendMessage} disabled={isSending || input.trim() === ''}>
+      <button
+        onClick={handleSendMessage}
+        disabled={isSending || input.trim() === ''}
+      >
         Send
       </button>
     </div>
