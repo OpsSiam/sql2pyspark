@@ -3,7 +3,6 @@ import axios from 'axios';
 import ChatWindow from './components/ChatWindow';
 import MessageInput from './components/MessageInput';
 import Sidebar from './components/Sidebar';
-import Modal from './components/Modal';
 import './style/App.css';
 
 function App() {
@@ -105,7 +104,7 @@ function App() {
           setMessages([]);
           setSessionId(null);
         }}
-        onDeleteSession={openDeleteModal} // Use openDeleteModal here
+        onDeleteSession={onDeleteSession} // Use openDeleteModal here
         onRenameSession={onRenameSession}
         isOpen={isSidebarOpen}
       />
@@ -120,16 +119,6 @@ function App() {
           messages={messages}
         />
       </div>
-
-      {/* Render Modal here */}
-      {modalOpen && (
-        <Modal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          onConfirm={() => onDeleteSession(sessionToDelete.id)}
-          sessionName={sessionToDelete ? sessionToDelete.title : ''}
-        />
-      )}
     </div>
   );
 }

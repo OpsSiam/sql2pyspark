@@ -9,7 +9,7 @@
   display: inline-block;
   cursor: pointer;
   padding: 10px;
-  background-color: #444654;
+  background-color: #2d2d2d;
   border-radius: 50%;
   transition: background-color 0.2s ease;
 }

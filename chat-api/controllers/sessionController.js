@@ -3,15 +3,23 @@ const db = require('../db/database');
 
 // Create a new session
 exports.createSession = (req, res) => {
-  const { title } = req.body; // Get the title (first message) from the request body
-  db.run('INSERT INTO sessions (title) VALUES (?)', [title], function (err) {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ id: this.lastID, title }); // Return the new session ID and title
+  const { title } = req.body;
+  const createdAt = new Date().toISOString(); // Get the current time in ISO format
+
+  // Insert the new session with the created_at timestamp
+  db.run(
+    'INSERT INTO sessions (title, created_at) VALUES (?, ?)',
+    [title, createdAt],
+    function (err) {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        res.json({ id: this.lastID, title, created_at: createdAt }); // Return the new session ID, title, and timestamp
+      }
     }
-  });
+  );
 };
+
 
 // Get all sessions
 exports.getSessions = (req, res) => {
