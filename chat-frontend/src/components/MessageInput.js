@@ -19,7 +19,7 @@ export const sendMessage = async ({
 
   if (!currentSessionId) {
     try {
-      const response = await fetch('http://localhost:5001/api/sessions', {
+      const response = await fetch(`${API_BASE_URL}/api/sessions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: content }),
@@ -40,7 +40,7 @@ export const sendMessage = async ({
   addMessage({ role: 'assistant', content: assistantContent });
 
   try {
-    const response = await fetch('http://localhost:5001/api/chat', {
+    const response = await fetch(`${API_BASE_URL}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

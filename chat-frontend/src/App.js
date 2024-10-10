@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/sessions');
+        const response = await axios.get(`${API_BASE_URL}/api/sessions`);
         setSessions(response.data);
       } catch (error) {
         console.error('Error fetching sessions:', error);
@@ -43,7 +43,7 @@ function App() {
 
   const onDeleteSession = async (sessionIdToDelete) => {
     try {
-      await axios.delete(`http://localhost:5001/api/sessions/${sessionIdToDelete}`);
+      await axios.delete(`${API_BASE_URL}/api/sessions/${sessionIdToDelete}`);
       setSessions((prevSessions) =>
         prevSessions.filter((session) => session.id !== sessionIdToDelete)
       );
@@ -59,7 +59,7 @@ function App() {
 
   const onRenameSession = async (sessionId, newTitle) => {
     try {
-      await axios.put(`http://localhost:5001/api/sessions/${sessionId}`, {
+      await axios.put(`${API_BASE_URL}/api/sessions/${sessionId}`, {
         title: newTitle,
       });
       setSessions((prevSessions) =>
@@ -74,7 +74,7 @@ function App() {
 
   const handleSelectSession = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5001/api/chat/${id}/messages`);
+      const response = await axios.get(`${API_BASE_URL}/api/chat/${id}/messages`);
       setSessionId(id);
       setMessages(response.data);
     } catch (error) {

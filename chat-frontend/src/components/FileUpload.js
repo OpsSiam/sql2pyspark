@@ -41,7 +41,7 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
 
         if (!currentSessionId) {
           try {
-            const response = await axios.post('http://localhost:5001/api/sessions', {
+            const response = await axios.post(`${API_BASE_URL}/api/sessions`, {
               title: `Uploaded file: ${file.name}`,
             });
             currentSessionId = response.data.id;
@@ -58,7 +58,7 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
 
         try {
           setIsSending(true);
-          const response = await fetch('http://localhost:5001/api/chat', {
+          const response = await fetch(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
