@@ -2,7 +2,7 @@
 
 /* General Sidebar Styling */
 .sidebar {
-  background-color: #1e1e1e; 
+  background-color: #161616; 
   color: #fff; 
   width: 260px; 
   padding: 15px 20px; 
@@ -10,7 +10,6 @@
   display: flex; 
   flex-direction: column; 
   overflow-y: auto; 
-  border-right: 1px solid #3a3a3a; 
   height: 100vh; 
   position: fixed; 
   left: 0; 
@@ -51,7 +50,6 @@
   display: flex;
   align-items: center;
   padding: 8px;
-  font-weight: bold;
   background-color: transparent; /* Session background */
   margin-bottom: 6px; /* Space between sessions */
   border-radius: 8px; /* Rounded corners */
@@ -150,11 +148,16 @@
 }
 
 .session-list::-webkit-scrollbar-track {
-  background: #1e1e1e;
+  background: #161616;
 }
 
 .session-list::-webkit-scrollbar-thumb {
   background-color: #555;
+  border-radius: 10px;
+}
+
+.session-list::-webkit-scrollbar-thumb:hover {
+  background-color: #a9a7a7;
   border-radius: 10px;
 }
 

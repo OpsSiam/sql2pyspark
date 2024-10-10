@@ -100,17 +100,19 @@ function MessageInput({
 
   const handleSendMessage = async () => {
     if (input.trim()) {
+      const messageToSend = input; // Capture the input value immediately.
+      setInput(''); // Clear the input field right away for immediate UI update.
+      resetTextarea(); // Reset the textarea size immediately.
+
       setIsSending(true);
       await sendMessage({
-        content: input,
+        content: messageToSend, // Send the captured message.
         sessionId,
         setSessionId,
         addMessage,
         updateLastMessage,
         messages,
       });
-      setInput(''); // Clear the input field
-      resetTextarea(); // Reset the textarea size
       setIsSending(false);
     }
   };
@@ -129,14 +131,14 @@ function MessageInput({
 
   const expandTextarea = () => {
     if (inputRef.current) {
-      inputRef.current.style.height = 'auto';
-      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+      inputRef.current.style.height = '18px'; // Set to initial height.
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`; // Adjust height based on content.
     }
   };
 
   const resetTextarea = () => {
     if (inputRef.current) {
-      inputRef.current.style.height = '18px'; // Set to initial height
+      inputRef.current.style.height = '18px'; // Reset to the initial height.
     }
   };
 

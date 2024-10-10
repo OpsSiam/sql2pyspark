@@ -2,10 +2,34 @@
 .message {
   display: flex;
   margin-bottom: 15px;
+  padding: 0; /* Remove padding from the message container */
+  margin: 10px 0; /* Margin to separate messages */
+  max-width: 82%;
 }
 
 .message.user {
   justify-content: flex-end;
+  
+}
+
+.message-header {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+}
+
+.assistant-logo {
+  font-size: 25px;
+  background-color: #2d2d2d; 
+  margin-right: 15px;
+  padding: 6px;
+  border-radius: 50%;
+  border: .5px solid #fff;
+  display: inline-block;
+  margin-top: 20px; /* Adjust this value to fine-tune vertical alignment */
+}
+
+.assistant-response {
+  flex: 1; /* Ensure the response text takes the remaining space */
 }
 
 .message.assistant {
@@ -13,19 +37,27 @@
 }
 
 .message-content {
-  background-color: #2a2a43;
-  font-size: 18px;
+  background-color: #1f1f1f;
+  font-size: 16px;
   color: #e0e0e0;
-  padding: 12px;
-  border-radius: 12px;
-  max-width: 70%;
+  padding: 12px 18px; /* Adjusted padding for a balanced look */
+  border-radius: 10px;
+  line-height: 1.5;
   word-wrap: break-word;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .message.user .message-content {
-  background-color: #007bff;
+  background-color: #2d2d2d;
   color: white;
+  margin-right: 0;
+}
+
+.message.assistant .message-content {
+  background-color: #1f1f1f;
+  margin-right: 0;
 }
 
 /* Code Snippet Styling */
@@ -53,7 +85,7 @@ pre {
   border-radius: 0 0 12px 12px; /* Rounded corners match the message bubble */
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
   margin: 0;
   box-shadow: none; /* Remove the shadow for pre elements */
   white-space: pre-wrap; /* Allow wrapping for long lines */
@@ -213,7 +245,7 @@ pre {
   cursor: pointer;
   font-size: 12px;
   font-weight: bold;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
 }
 
 
@@ -226,7 +258,7 @@ pre {
   color: #4caf50; /* Green color for the "Copied" status */
   font-size: 12px;
   font-weight: bold;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
 }
 
 .copy-status .copy-icon {
@@ -242,7 +274,7 @@ pre {
   border-radius: 0 0 12px 12px;
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
   margin-top: 0;
   box-shadow: none;
   white-space: pre-wrap;
@@ -250,7 +282,7 @@ pre {
 }
 
 .message-content pre {
-  background-color: #1e1e1e;
+  background-color: #000000;
   border-radius: 8px;
 }
 

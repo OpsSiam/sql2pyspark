@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import '../style/Message.css';
+import { PiOpenAiLogoThin } from 'react-icons/pi';
 
 function Message({ message }) {
   const [copyStatus, setCopyStatus] = useState({});
@@ -10,15 +11,29 @@ function Message({ message }) {
       setCopyStatus((prevState) => ({ ...prevState, [index]: true }));
       setTimeout(() => {
         setCopyStatus((prevState) => ({ ...prevState, [index]: false }));
-      }, 2000); // Reset copy status after 2 seconds
+      }, 2000);
     }).catch((err) => {
       console.error("Failed to copy code: ", err);
     });
   };
 
-  const formatMessage = (content) => {
-    const parts = content.split(/(```[\s\S]*?```)/);
+  const formatMessage = (content, role) => {
+    // If the message is from the user, display it as plain text with markdown support for line breaks.
+    if (role === 'user') {
+      return (
+        <ReactMarkdown
+          key="user-message"
+          children={content}
+          components={{
+            // Customize rendering to respect line breaks for user input.
+            p: ({ children }) => <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{children}</p>,
+          }}
+        />
+      );
+    }
 
+    // Process code snippets only for assistant messages.
+    const parts = content.split(/(```[\s\S]*?```)/);
     return parts.map((part, index) => {
       if (part.startsWith('```') && part.endsWith('```')) {
         let codeBlock = part.slice(3, -3).trim();
@@ -33,7 +48,6 @@ function Message({ message }) {
 
         return (
           <div key={index} className="code-snippet-container">
-            {/* Container for the language title and copy button */}
             <div className="code-header">
               {language && <div className="code-language-title">{language}</div>}
               {copyStatus[index] ? (
@@ -52,7 +66,6 @@ function Message({ message }) {
           </div>
         );
       } else {
-        // Render markdown content for non-code blocks
         return (
           <ReactMarkdown key={index} children={part} />
         );
@@ -63,7 +76,15 @@ function Message({ message }) {
   return (
     <div className={`message ${message.role}`}>
       <div className="message-content">
-        {formatMessage(message.content)}
+        {message.role === 'assistant' && (
+          <div className="message-header">
+            <PiOpenAiLogoThin className="assistant-logo" />
+            <div className="assistant-response">
+              {formatMessage(message.content)}
+            </div>
+          </div>
+        )}
+        {message.role !== 'assistant' && formatMessage(message.content)}
       </div>
     </div>
   );
