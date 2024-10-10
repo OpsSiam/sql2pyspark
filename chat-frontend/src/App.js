@@ -3,7 +3,7 @@ import axios from 'axios';
 import ChatWindow from './components/ChatWindow';
 import MessageInput from './components/MessageInput';
 import Sidebar from './components/Sidebar';
-import FileUpload from './components/FileUpload';
+import Modal from './components/Modal';
 import './style/App.css';
 
 function App() {
@@ -11,6 +11,8 @@ function App() {
   const [sessionId, setSessionId] = useState(null);
   const [sessions, setSessions] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [sessionToDelete, setSessionToDelete] = useState(null);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -40,7 +42,6 @@ function App() {
     setSessions((prevSessions) => [newSession, ...prevSessions]);
   };
 
-  // Define the onDeleteSession function
   const onDeleteSession = async (sessionIdToDelete) => {
     try {
       await axios.delete(`http://localhost:5001/api/sessions/${sessionIdToDelete}`);
@@ -51,12 +52,12 @@ function App() {
         setMessages([]);
         setSessionId(null);
       }
+      setModalOpen(false); // Close the modal after deletion
     } catch (error) {
       console.error('Error deleting session:', error);
     }
   };
 
-  // Define the onRenameSession function
   const onRenameSession = async (sessionId, newTitle) => {
     try {
       await axios.put(`http://localhost:5001/api/sessions/${sessionId}`, {
@@ -86,10 +87,15 @@ function App() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const openDeleteModal = (session) => {
+    setSessionToDelete(session);
+    setModalOpen(true);
+  };
+
   return (
     <div className={`app ${isSidebarOpen ? 'sidebar-open' : ''}`}>
       <button className="toggle-sidebar-button" onClick={toggleSidebar}>
-        ☰ {/* Hamburger Icon */}
+        ☰
       </button>
       <Sidebar
         sessions={sessions}
@@ -99,8 +105,8 @@ function App() {
           setMessages([]);
           setSessionId(null);
         }}
-        onDeleteSession={onDeleteSession} // Pass the onDeleteSession function
-        onRenameSession={onRenameSession} // Pass the onRenameSession function
+        onDeleteSession={openDeleteModal} // Use openDeleteModal here
+        onRenameSession={onRenameSession}
         isOpen={isSidebarOpen}
       />
       <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
@@ -114,6 +120,16 @@ function App() {
           messages={messages}
         />
       </div>
+
+      {/* Render Modal here */}
+      {modalOpen && (
+        <Modal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onConfirm={() => onDeleteSession(sessionToDelete.id)}
+          sessionName={sessionToDelete ? sessionToDelete.title : ''}
+        />
+      )}
     </div>
   );
 }

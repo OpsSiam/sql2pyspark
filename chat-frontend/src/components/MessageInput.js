@@ -1,7 +1,8 @@
-// MessageInput.js
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import '../style/MessageInput.css';
 import FileUpload from './FileUpload';
+import { BsPaperclip } from 'react-icons/bs';
+import { FaArrowUp } from 'react-icons/fa';
 
 export const sendMessage = async ({
   content,
@@ -95,6 +96,7 @@ function MessageInput({
 }) {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const inputRef = useRef(null);
 
   const handleSendMessage = async () => {
     if (input.trim()) {
@@ -107,7 +109,8 @@ function MessageInput({
         updateLastMessage,
         messages,
       });
-      setInput('');
+      setInput(''); // Clear the input field
+      resetTextarea(); // Reset the textarea size
       setIsSending(false);
     }
   };
@@ -116,36 +119,61 @@ function MessageInput({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
-    } else if (e.key === 'Enter' && e.shiftKey) {
-      e.preventDefault();
-      setInput((prevInput) => prevInput + '\n');
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+    expandTextarea();
+  };
+
+  const expandTextarea = () => {
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`;
+    }
+  };
+
+  const resetTextarea = () => {
+    if (inputRef.current) {
+      inputRef.current.style.height = '18px'; // Set to initial height
     }
   };
 
   return (
-    <div className="message-input-container">
-      <FileUpload
-        sessionId={sessionId}
-        addMessage={addMessage}
-        setSessionId={setSessionId}
-        updateLastMessage={updateLastMessage}
-        onNewSessionCreated={onNewSessionCreated}
-        disabled={isSending}
-      />
-      <textarea
-        className="message-input"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type your message..."
-        disabled={isSending}
-        onKeyDown={handleKeyDown}
-      />
-      <button
-        onClick={handleSendMessage}
-        disabled={isSending || input.trim() === ''}
-      >
-        Send
-      </button>
+    <div className="message-input-wrapper">
+      <div className="message-input-container">
+        <div className="file-upload-wrapper">
+          <FileUpload
+            sessionId={sessionId}
+            addMessage={addMessage}
+            setSessionId={setSessionId}
+            updateLastMessage={updateLastMessage}
+            onNewSessionCreated={onNewSessionCreated}
+            disabled={isSending}
+          >
+            <BsPaperclip size={20} className="file-upload-icon" />
+          </FileUpload>
+        </div>
+        <textarea
+          rows="1"
+          ref={inputRef}
+          className="message-input"
+          value={input}
+          onChange={handleInputChange}
+          placeholder="Message ChatGPT"
+          disabled={isSending}
+          onKeyDown={handleKeyDown}
+        />
+        <button
+          className="send-button"
+          onClick={handleSendMessage}
+          disabled={isSending || input.trim() === ''}
+        >
+          <FaArrowUp size={16} />
+        </button>
+      </div>
+      <div className="note">ChatGPT can make mistakes. Check important info.</div>
     </div>
   );
 }

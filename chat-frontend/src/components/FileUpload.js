@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../style/FileUpload.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
-function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated, disabled}) {
+function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated }) {
   const [isSending, setIsSending] = useState(false);
 
   const handleFileUpload = async (event) => {
@@ -97,7 +99,16 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
 
   return (
     <div className="file-upload">
-      <input type="file" onChange={handleFileUpload} disabled={disabled} />
+      <label htmlFor="file-upload-input" className="file-upload-label">
+        <FontAwesomeIcon icon={faPaperclip} className="file-upload-icon" />
+      </label>
+      <input
+        id="file-upload-input"
+        type="file"
+        onChange={handleFileUpload}
+        disabled={isSending}
+        className="file-upload-input"
+      />
     </div>
   );
 }
