@@ -163,7 +163,7 @@ function MessageInput({
           className="message-input"
           value={input}
           onChange={handleInputChange}
-          placeholder="Message ChatGPT"
+          placeholder="Message Azure OpenAI"
           disabled={isSending}
           onKeyDown={handleKeyDown}
         />
@@ -175,7 +175,7 @@ function MessageInput({
           <FaArrowUp size={16} />
         </button>
       </div>
-      <div className="note">ChatGPT can make mistakes. Check important info.</div>
+      <div className="note">Azure OpenAI can make mistakes.</div>
     </div>
   );
 }

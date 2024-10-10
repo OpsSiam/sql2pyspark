@@ -2,7 +2,7 @@
 .file-upload {
   position: relative;
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 0;
 }
 
 .file-upload-label {
