@@ -43,7 +43,7 @@
   border-radius: 10px;
   line-height: 1.5;
   word-wrap: break-word;
-  max-width: 80%;
+  max-width: 70%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -59,24 +59,6 @@
   margin-left: 0;
 }
 
-/* Code Snippet Styling */
-.code-snippet-container {
-  margin: 10px 0;
-  font-size: 16px;
-  max-width: 100%; /* Ensure code snippets don't overflow the message bubble */
-}
-
-.code-language-title {
-  background-color: #44475a;
-  color: #f8f8f2;
-  padding: 5px 10px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: capitalize;
-}
-
 /* Ensure the pre and code block fit nicely within the message content */
 pre {
   background-color: #2d2d2d;
@@ -84,7 +66,7 @@ pre {
   border-radius: 0 0 12px 12px; /* Rounded corners match the message bubble */
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   box-shadow: none; /* Remove the shadow for pre elements */
   white-space: pre-wrap; /* Allow wrapping for long lines */
@@ -224,7 +206,7 @@ pre {
 }
 
 .code-language-title {
-  background-color: #44475a;
+  background-color: #2d2d2d;
   color: #f8f8f2;
   padding: 5px 10px;
   border-top-left-radius: 5px;
@@ -236,28 +218,28 @@ pre {
 
 /* Styling for the copy button */
 .copy-button {
-  background-color: #44475a;
+  background-color: #1f1f1f;
   color: #f8f8f2;
   border: none;
   border-radius: 5px;
   padding: 4px 8px;
   cursor: pointer;
   font-size: 12px;
-  font-weight: bold;
-  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
+  margin-left: auto; 
+  font-family: 'Roboto', sans-serif;
 }
 
 
 .copy-button:hover {
-  background-color: #6272a4;
+  background-color: #000000;
 }
 
 .copy-status {
   background-color: transparent;
   color: #4caf50; /* Green color for the "Copied" status */
   font-size: 12px;
-  font-weight: bold;
-  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
+  margin-left: auto; 
+  font-family: 'Roboto', sans-serif;
 }
 
 .copy-status .copy-icon {
@@ -273,7 +255,7 @@ pre {
   border-radius: 0 0 12px 12px;
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Roboto', sans-serif;ily: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin-top: 0;
   box-shadow: none;
   white-space: pre-wrap;
@@ -281,7 +263,7 @@ pre {
 }
 
 .message-content pre {
-  background-color: #000000;
+  background-color: #0b0b0b;
   border-radius: 8px;
 }
 
@@ -307,11 +289,40 @@ pre {
   display: flex;
   justify-content: space-between; /* Align items horizontally */
   align-items: center; /* Vertically align the title and button */
-  background-color: #44475a;
+  background-color: #2d2d2d;
   padding: 5px 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   font-size: 12px;
   font-weight: bold;
   text-transform: capitalize;
+}
+
+/* Style for tables */
+.table-container {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 8px;
+  text-align: left;
+  background-color: #202020; /* Background for table cells */
+}
+
+th {
+  background-color: #3b3b3b; /* Darker background for headers */
+  font-weight: bold;
+
+}
+
+tr:nth-child(even) {
+  background-color: #1f1f1f; /* Alternating row colors for better readability */
 }

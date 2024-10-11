@@ -1,7 +1,10 @@
+// Message.js
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import '../style/Message.css';
 import { PiOpenAiLogoThin } from 'react-icons/pi';
+import remarkGfm from 'remark-gfm';
+import { PiCopySimple } from "react-icons/pi";
 
 function Message({ message }) {
   const [copyStatus, setCopyStatus] = useState({});
@@ -24,6 +27,7 @@ function Message({ message }) {
         <ReactMarkdown
           key="user-message"
           children={content}
+          remarkPlugins={[remarkGfm]} // Enables support for tables and other GitHub-flavored markdown.
           components={{
             // Customize rendering to respect line breaks for user input.
             p: ({ children }) => <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{children}</p>,
@@ -52,11 +56,11 @@ function Message({ message }) {
               {language && <div className="code-language-title">{language}</div>}
               {copyStatus[index] ? (
                 <div className="copy-status">
-                  <span className="copy-icon">✔</span> Copied !
+                  <span className="copy-icon">✔</span> Copied!
                 </div>
               ) : (
                 <button className="copy-button" onClick={() => handleCopy(code, index)}>
-                  Copy Code
+                  <PiCopySimple size={16} className="copy-icon" /> Copy code
                 </button>
               )}
             </div>
@@ -67,7 +71,19 @@ function Message({ message }) {
         );
       } else {
         return (
-          <ReactMarkdown key={index} children={part} />
+          <ReactMarkdown
+            key={index}
+            children={part}
+            remarkPlugins={[remarkGfm]} // Enables table rendering
+            components={{
+              table: ({ children }) => (
+                <div className="table-container">
+                  <table>{children}</table>
+                </div>
+              ),
+              p: ({ children }) => <p style={{ margin: 0 }}>{children}</p>,
+            }}
+          />
         );
       }
     });
@@ -80,11 +96,11 @@ function Message({ message }) {
           <div className="message-header">
             <PiOpenAiLogoThin className="assistant-logo" />
             <div className="assistant-response">
-              {formatMessage(message.content)}
+              {formatMessage(message.content, message.role)}
             </div>
           </div>
         )}
-        {message.role !== 'assistant' && formatMessage(message.content)}
+        {message.role !== 'assistant' && formatMessage(message.content, message.role)}
       </div>
     </div>
   );
