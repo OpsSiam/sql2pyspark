@@ -5,6 +5,8 @@ import MessageInput from './components/MessageInput';
 import Sidebar from './components/Sidebar';
 import './style/App.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function App() {
   const [messages, setMessages] = useState([]);
   const [sessionId, setSessionId] = useState(null);

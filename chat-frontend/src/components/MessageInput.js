@@ -3,6 +3,7 @@ import '../style/MessageInput.css';
 import FileUpload from './FileUpload';
 import { BsPaperclip } from 'react-icons/bs';
 import { FaArrowUp } from 'react-icons/fa';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const sendMessage = async ({
   content,

@@ -5,6 +5,8 @@ import '../style/FileUpload.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated }) {
   const [isSending, setIsSending] = useState(false);
 
