@@ -21,14 +21,14 @@
 }
 
 .assistant-logo {
-  font-size: 25px;
+  font-size: 20px;
   background-color: #2d2d2d; 
   margin-right: 15px;
   padding: 6px;
   border-radius: 50%;
-  border: .5px solid #fff;
+  border: 1px solid #666666;
   display: inline-block;
-  margin-top: 10px; /* Adjust this value to fine-tune vertical alignment */
+  margin-top: 0px; /* Adjust this value to fine-tune vertical alignment */
 }
 
 .assistant-response {
