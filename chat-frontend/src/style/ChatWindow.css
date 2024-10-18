@@ -4,10 +4,15 @@
   overflow-y: auto;
   background-color: #1f1f1f;
   border-radius: 8px;
+  width: 900px; /* Set a fixed width */
+  margin: 0 auto; /* Center the chat window */
+  position: relative; /* Ensure the scrollbar is positioned correctly */
 }
+
 .chat-window::-webkit-scrollbar {
-  width: 8px;
+  width: 6px; /* Set a narrower width for the scrollbar */
 }
+
 
 .chat-window::-webkit-scrollbar-track {
   background: #1e1e1e;

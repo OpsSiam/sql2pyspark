@@ -1,8 +1,8 @@
-// Sidebar.js
 import React, { useState, useRef, useEffect } from 'react';
 import '../style/Sidebar.css';
 import Modal from './Modal'; 
 import { format, isToday, isYesterday, subDays } from 'date-fns'; 
+import { FaEdit, FaTrash, FaEllipsisV } from 'react-icons/fa';
 
 function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onDeleteSession, onRenameSession, isOpen, toggleSidebar }) {
   const [dropdownOpen, setDropdownOpen] = useState(null); 
@@ -75,55 +75,61 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
 
         <ul className="session-list">
           {/* Today's Sessions */}
-          <li className="time-period-today">Today</li>
-          {today.length > 0 && today.map((session, index) => (
-            <li
-              key={session.id}
-              className={`session-item ${activeSessionId === session.id ? 'active' : ''}`}
-              onClick={() => onSelectSession(session.id)}
-            >
-              {isRenaming === session.id ? (
-                <input
-                  type="text"
-                  value={renameValue}
-                  autoFocus
-                  onChange={(e) => setRenameValue(e.target.value)}
-                  onBlur={() => handleRenameSession(session.id)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleRenameSession(session.id);
-                  }}
-                />
-              ) : (
-                <span className="session-title">
-                  {session.title || `Conversation ${index + 1}`}
-                </span>
-              )}
-              <span
-                className="session-menu"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDropdownOpen(dropdownOpen === session.id ? null : session.id);
-                }}
-              >
-                <span className="three-dots">•••</span>
-              </span>
-              {dropdownOpen === session.id && (
-                <div className="dropdown" ref={dropdownRef}>
-                  <div
+          {today.length > 0 && (
+            <>
+              <li className="time-period-today">Today</li>
+              {today.map((session, index) => (
+                <li
+                  key={session.id}
+                  className={`session-item ${activeSessionId === session.id ? 'active' : ''}`}
+                  onClick={() => onSelectSession(session.id)}
+                >
+                  {isRenaming === session.id ? (
+                    <input
+                      type="text"
+                      value={renameValue}
+                      autoFocus
+                      onChange={(e) => setRenameValue(e.target.value)}
+                      onBlur={() => handleRenameSession(session.id)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleRenameSession(session.id);
+                      }}
+                    />
+                  ) : (
+                    <span className="session-title">
+                      {session.title || `Conversation ${index + 1}`}
+                    </span>
+                  )}
+                  <span
+                    className="session-menu"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsRenaming(session.id);
-                      setRenameValue(session.title);
-                      setDropdownOpen(null);
+                      setDropdownOpen(dropdownOpen === session.id ? null : session.id);
                     }}
                   >
-                    Rename
-                  </div>
-                  <div onClick={() => openDeleteModal(session)}>Delete</div>
-                </div>
-              )}
-            </li>
-          ))}
+                    <span className="three-dots">•••</span>
+                  </span>
+                  {dropdownOpen === session.id && (
+                    <div className="dropdown" ref={dropdownRef}>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsRenaming(session.id);
+                          setRenameValue(session.title);
+                          setDropdownOpen(null);
+                        }}
+                      >
+                        <FaEdit className="icon" /> Rename
+                      </div>
+                      <div onClick={() => openDeleteModal(session)}>
+                        <FaTrash className="icon" /> Delete
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </>
+          )}
 
           {/* Yesterday's Sessions */}
           {yesterday.length > 0 && (
@@ -170,9 +176,11 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
                           setDropdownOpen(null);
                         }}
                       >
-                        Rename
+                        <FaEdit className="icon" /> Rename
                       </div>
-                      <div onClick={() => openDeleteModal(session)}>Delete</div>
+                      <div onClick={() => openDeleteModal(session)}>
+                        <FaTrash className="icon" /> Delete
+                      </div>
                     </div>
                   )}
                 </li>
@@ -225,9 +233,11 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
                           setDropdownOpen(null);
                         }}
                       >
-                        Rename
+                        <FaEdit className="icon" /> Rename
                       </div>
-                      <div onClick={() => openDeleteModal(session)}>Delete</div>
+                      <div onClick={() => openDeleteModal(session)}>
+                        <FaTrash className="icon" /> Delete
+                      </div>
                     </div>
                   )}
                 </li>
@@ -280,9 +290,11 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
                           setDropdownOpen(null);
                         }}
                       >
-                        Rename
+                        <FaEdit className="icon" /> Rename
                       </div>
-                      <div onClick={() => openDeleteModal(session)}>Delete</div>
+                      <div onClick={() => openDeleteModal(session)}>
+                        <FaTrash className="icon" /> Delete
+                      </div>
                     </div>
                   )}
                 </li>
@@ -335,9 +347,11 @@ function Sidebar({ sessions, activeSessionId, onSelectSession, onNewSession, onD
                           setDropdownOpen(null);
                         }}
                       >
-                        Rename
+                        <FaEdit className="icon" /> Rename
                       </div>
-                      <div onClick={() => openDeleteModal(session)}>Delete</div>
+                      <div onClick={() => openDeleteModal(session)}>
+                        <FaTrash className="icon" /> Delete
+                      </div>
                     </div>
                   )}
                 </li>

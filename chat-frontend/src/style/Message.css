@@ -41,7 +41,7 @@
   color: #e0e0e0;
   padding: 12px 18px; /* Adjusted padding for a balanced look */
   border-radius: 10px;
-  line-height: 1.5;
+  line-height: 1.8;
   word-wrap: break-word;
   max-width: 70%;
   margin-left: auto;
@@ -66,7 +66,8 @@ pre {
   border-radius: 0 0 12px 12px; /* Rounded corners match the message bubble */
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Roboto', sans-serif;
+   font-family: 'Roboto', sans-serif;
+  font-weight: 600;
   margin: 0;
   box-shadow: none; /* Remove the shadow for pre elements */
   white-space: pre-wrap; /* Allow wrapping for long lines */
@@ -87,7 +88,7 @@ pre {
 
 /* Python */
 .language-python code {
-  color: #3572A5;
+  color: #437cff;
 }
 
 /* Java */
@@ -195,8 +196,10 @@ pre {
   color: #4a6bff;
 }
 
-
-/* Message.css */
+/* Shell */
+.language-sh code {
+  color: #a0e825;
+}
 
 /* Positioning for the copy button */
 .code-snippet-container {
@@ -226,7 +229,8 @@ pre {
   cursor: pointer;
   font-size: 12px;
   margin-left: auto; 
-  font-family: 'Roboto', sans-serif;
+   font-family: 'Roboto', sans-serif;
+  font-weight: 600;
 }
 
 
@@ -239,7 +243,8 @@ pre {
   color: #4caf50; /* Green color for the "Copied" status */
   font-size: 12px;
   margin-left: auto; 
-  font-family: 'Roboto', sans-serif;
+   font-family: 'Roboto', sans-serif;
+  font-weight: 600;
 }
 
 .copy-status .copy-icon {
@@ -255,7 +260,8 @@ pre {
   border-radius: 0 0 12px 12px;
   color: #f8f8f2;
   overflow-x: auto;
-  font-family: 'Roboto', sans-serif;
+   font-family: 'Roboto', sans-serif;
+  font-weight: 600;
   margin-top: 0;
   box-shadow: none;
   white-space: pre-wrap;
@@ -265,23 +271,6 @@ pre {
 .message-content pre {
   background-color: #0b0b0b;
   border-radius: 8px;
-}
-
-/* Language-Specific Coloring */
-
-/* JavaScript */
-.language-javascript code {
-  color: #f1e05a;
-}
-
-/* Python */
-.language-python code {
-  color: #3572A5;
-}
-
-/* Shell */
-.language-sh code {
-  color: #a0e825;
 }
 
 /* Additional language styles omitted for brevity... */
