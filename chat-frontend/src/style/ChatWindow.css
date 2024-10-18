@@ -4,7 +4,7 @@
   overflow-y: auto;
   background-color: #1f1f1f;
   border-radius: 8px;
-  width: 900px; /* Set a fixed width */
+  width: 900px; /* Set a fixed width for larger screens */
   margin: 0 auto; /* Center the chat window */
   position: relative; /* Ensure the scrollbar is positioned correctly */
 }
@@ -12,7 +12,6 @@
 .chat-window::-webkit-scrollbar {
   width: 6px; /* Set a narrower width for the scrollbar */
 }
-
 
 .chat-window::-webkit-scrollbar-track {
   background: #1e1e1e;
@@ -26,4 +25,25 @@
 .chat-window::-webkit-scrollbar-thumb:hover {
   background-color: #a9a7a7;
   border-radius: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .chat-window {
+    width: 80%; /* Set width to 80% for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-window {
+    width: 95%; /* Set width to 95% for small screens */
+    padding: 10px; /* Reduce padding for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-window {
+    width: 100%; /* Full width for extra small screens */
+    padding: 5px; /* Further reduce padding */
+  }
 }

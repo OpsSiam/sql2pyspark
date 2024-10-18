@@ -6,7 +6,14 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5001;
 
-app.use(cors());
+const corsOptions = {
+  origin: [process.env.CHAT_FRONTEND_URL],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 3600,
+};
+
+app.use(cors(corsOptions)); 
 app.use(express.json());
 
 // Import routes
@@ -18,7 +25,7 @@ const { errorHandler } = require('./middleware/errorHandler');
 
 // Use routes
 app.use('/api/chat', chatRoutes);
-app.use('/api/health', healthRoutes);
+app.use('/api/healthcheck', healthRoutes);
 app.use('/api/sessions', sessionRoutes);
 
 // Error handling middleware (should be after all routes)

@@ -44,13 +44,12 @@
   font-size: 24px;
 }
 
-@media screen and (max-width: 768px) {
-  .main-content {
-    margin-left: 0;
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide sidebar by default */
   }
 
-  .sidebar-toggle {
-    left: 10px; /* Adjust toggle button for smaller screens */
-    top: 10px;
+  .sidebar.open {
+    display: flex; /* Show sidebar when open */
   }
 }
