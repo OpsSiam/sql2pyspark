@@ -8,18 +8,20 @@ exports.chatHandler = async (req, res) => {
   try {
     const userMessage = messages[messages.length - 1];
 
-    if (userMessage.content.startsWith('Uploaded file:')) {
-      const firstLine = userMessage.content.split('\n')[0];
-      db.run(
-        'INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)',
-        [sessionId, userMessage.role, firstLine]
-      );
-    } else {
-      db.run(
-        'INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)',
-        [sessionId, userMessage.role, userMessage.content]
-      );
-    }
+    messages.forEach(message => {
+      if (message.content.startsWith('Uploaded file:')) {
+        const firstLine = message.content.split('\n')[0];
+        db.run(
+          'INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)',
+          [sessionId, message.role, firstLine]
+        );
+      } else {
+        db.run(
+          'INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)',
+          [sessionId, message.role, message.content]
+        );
+      }
+    });
 
     const systemMessage = {
       role: 'system',

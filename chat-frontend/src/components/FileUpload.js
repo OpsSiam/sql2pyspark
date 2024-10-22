@@ -20,8 +20,6 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'application/vnd.ms-powerpoint',
-    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
     'text/csv',
     'application/xml',
     'text/xml',
@@ -30,6 +28,12 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
     'text/markdown',
     'application/x-yaml',
     'text/yaml',
+    'application/javascript',
+    'text/javascript',
+    'application/sql',
+    'text/x-sql',
+    'text/x-python',
+    'application/x-python-code',
   ];
 
   const handleFileSelection = (event) => {
@@ -85,7 +89,7 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
 
         reader.onload = async (e) => {
           const fileContent = e.target.result;
-          const combinedMessage = `Uploaded file: ${file.name}\n\nFile Content:\n${fileContent}`;
+          const combinedMessage = `Uploaded file: ${file.name}\n\nFile Content:\n${fileContent}\n\n`;
 
           combinedMessages.push(combinedMessage);
 
