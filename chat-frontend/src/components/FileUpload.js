@@ -1,21 +1,22 @@
-// FileUpload.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../style/FileUpload.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import Modal from './Modal'; // Import Modal
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated }) {
   const [isSending, setIsSending] = useState(false);
+  const [filesToUpload, setFilesToUpload] = useState([]); // State for holding selected files
+  const [isModalOpen, setIsModalOpen] = useState(false); // Control modal state
 
-  // Define supported file types (e.g., text files)
   const supportedFileTypes = [
     'text/plain',
     'application/json',
     'application/pdf',
-    'application/msword', 
+    'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -31,13 +32,22 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
     'text/yaml',
   ];
 
-  const handleFileUpload = async (event) => {
+  const handleFileSelection = (event) => {
     const files = Array.from(event.target.files).slice(0, 3); // Limit to 3 files
+    setFilesToUpload(files); // Store selected files
+    setIsModalOpen(true); // Open the modal for confirmation
+  };
+
+  const handleConfirmUpload = () => {
+    setIsModalOpen(false); // Close the modal
+    handleFileUpload(); // Proceed with the file upload
+  };
+
+  const handleFileUpload = async () => {
     let currentSessionId = sessionId;
 
-    if (files.length > 0) {
-      // Check if the files are all of supported types
-      const unsupportedFiles = files.filter(file => !supportedFileTypes.includes(file.type));
+    if (filesToUpload.length > 0) {
+      const unsupportedFiles = filesToUpload.filter(file => !supportedFileTypes.includes(file.type));
       if (unsupportedFiles.length > 0) {
         addMessage({
           role: 'assistant',
@@ -46,15 +56,13 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
         return;
       }
 
-      // Construct a user message displaying each file on a new line
-      const fileMessages = files.map(file => `Uploaded file: ${file.name}`).join('\n');
+      const fileMessages = filesToUpload.map(file => `Uploaded file: ${file.name}`).join('\n');
       const userMessage = {
         role: 'user',
         content: fileMessages,
       };
       addMessage(userMessage);
 
-      // Create a session if it doesn't exist yet
       if (!currentSessionId) {
         try {
           const response = await axios.post(`${API_BASE_URL}/api/sessions`, {
@@ -69,11 +77,10 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
         }
       }
 
-      // Prepare content for each file
       setIsSending(true);
       const combinedMessages = [];
 
-      for (const file of files) {
+      for (const file of filesToUpload) {
         const reader = new FileReader();
 
         reader.onload = async (e) => {
@@ -82,8 +89,7 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
 
           combinedMessages.push(combinedMessage);
 
-          if (combinedMessages.length === files.length) {
-            // Send all combined messages to the server
+          if (combinedMessages.length === filesToUpload.length) {
             let assistantContent = '';
             addMessage({ role: 'assistant', content: assistantContent });
 
@@ -150,11 +156,20 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
       <input
         id="file-upload-input"
         type="file"
-        onChange={handleFileUpload}
+        onChange={handleFileSelection}
         disabled={isSending}
         className="file-upload-input"
         multiple
         accept={supportedFileTypes.join(', ')}
+      />
+
+      {/* Modal for confirming file upload */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirmUpload}
+        fileNames={filesToUpload.map(file => file.name)} // Pass file names to modal
+        type="upload" // Set modal type to upload
       />
     </div>
   );

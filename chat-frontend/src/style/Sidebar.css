@@ -1,6 +1,6 @@
-/* Sidebar.css */
 
-/* General Sidebar Styling */
+
+
 .sidebar {
   background-color: #161616; 
   color: #fff; 
@@ -14,17 +14,17 @@
   position: fixed; 
   left: 0; 
   top: 0; 
-  transform: translateX(-100%); /* Start hidden */
+  transform: translateX(-100%); 
   transition: none; 
   z-index: 999; 
 }
 
 .sidebar.open {
-  transform: translateX(0); /* Show sidebar when open */
+  transform: translateX(0); 
 }
 
 .sidebar:not(.open) {
-  transform: translateX(-100%); /* Hide sidebar off screen */
+  transform: translateX(-100%); 
 }
 
 .sidebar h2 {
@@ -35,50 +35,50 @@
   margin-top: 50px; 
 }
 
-/* Session List Styling */
+
 .session-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* Expand the session list */
-  overflow-y: auto; /* Enable scrolling for the session list */
-  height: 100%; /* Ensure the list takes full height */
+  flex-grow: 1; 
+  overflow-y: auto; 
+  height: 100%; 
 }
 
-/* Session Item Styling */
+
 .session-item {
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: transparent; /* Session background */
-  margin-bottom: 6px; /* Space between sessions */
-  border-radius: 8px; /* Rounded corners */
+  background-color: transparent; 
+  margin-bottom: 6px; 
+  border-radius: 8px; 
   cursor: pointer;
   transition: background-color 0.3s ease;
   position: relative;
 }
 
 .session-item:hover {
-  background-color: #3b3b4f; /* Lighter background on hover */
+  background-color: #3b3b4f; 
 }
 
 .session-item.active {
-  background-color: #454654; /* Active session highlight */
+  background-color: #454654; 
   font-weight: bold;
 }
 
 .session-title {
-  flex-grow: 1; /* Use available space */
-  font-size: 16px; /* Adjust font size */
+  flex-grow: 1; 
+  font-size: 16px; 
   color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
-  max-width: 90%; /* กำหนดขนาดสูงสุดให้กับข้อความ */
+  max-width: 90%; 
   -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
   mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
 }
 
-/* Three Dots Menu */
+
 .three-dots {
   display: none;
   cursor: pointer;
@@ -86,7 +86,7 @@
 }
 
 .session-item:hover .three-dots {
-  display: inline-block; /* Show three dots when hovering */
+  display: inline-block; 
 }
 
 .dropdown {
@@ -107,20 +107,20 @@
   padding: 8px;
   cursor: pointer;
   padding: 10px 1;
-  color: #fff; /* Text color */
+  color: #fff; 
 }
 
-.dropdown div:nth-child(2) { /* or use a specific class or ID if you have one */
-  color: #ff4643; /* or use a more specific shade of red, like #FF3737 */
+.dropdown div:nth-child(2) { 
+  color: #ff4643; 
 }
 
 
 .dropdown div:hover {
-  background-color: #4e4f5d; /* Hover color for dropdown items */
+  background-color: #4e4f5d; 
   border-radius: 10px;
 }
 
-/* New Conversation Button */
+
 .new-conversation-button {
   background-color: #2e2f38;
   color: #ffffff;
@@ -139,7 +139,7 @@
   background-color: #3a3b4b;
 }
 
-/* Scrollbar styling */
+
 .session-list::-webkit-scrollbar {
   width: 8px;
 }
@@ -158,21 +158,21 @@
   border-radius: 10px;
 }
 
-/* Time Period Styling */
+
 .time-period {
-  font-size: 14px; /* Reduce font size for time categories */
+  font-size: 14px; 
   font-weight: bold;
-  color: #cfcfcf; /* Different color for time period */
-  margin-top: 30px; /* Adjust top margin for spacing */
-  margin-bottom: 8px; /* Adjust bottom margin for spacing */
+  color: #cfcfcf; 
+  margin-top: 30px; 
+  margin-bottom: 8px; 
 }
 
 .time-period-today {
-  font-size: 14px; /* Reduce font size for time categories */
+  font-size: 14px; 
   font-weight: bold;
-  color: #cfcfcf; /* Different color for time period */
-  margin-top: 10px; /* Adjust top margin for spacing */
-  margin-bottom: 8px; /* Adjust bottom margin for spacing */
+  color: #cfcfcf; 
+  margin-top: 10px; 
+  margin-bottom: 8px; 
 }
 
 .toggle-sidebar-button {
@@ -189,11 +189,11 @@
 
 @media screen and (max-width: 768px) {
   .sidebar {
-    width: 80%; /* Adjust width for mobile */
-    max-width: 260px; /* Maximum width */
+    width: 80%; 
+    max-width: 260px; 
   }
 
   .sidebar.open {
-    transform: translateX(0); /* Show sidebar when open */
+    transform: translateX(0); 
   }
 }

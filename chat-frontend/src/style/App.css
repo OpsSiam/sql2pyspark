@@ -11,16 +11,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #1f1f1f; /* Darker background for the chat area */
-  transition: margin-left 0.3s ease; /* Add transition for smoother effect */
+  background-color: #1f1f1f; 
+  transition: margin-left 0.3s ease; 
 }
 
 .sidebar-open .main-content {
-  margin-left: 260px; /* Push content to the right when sidebar is open */
+  margin-left: 260px; 
 }
 
 .sidebar:not(.open) + .main-content {
-  margin-left: 0; /* Reset margin when sidebar is closed */
+  margin-left: 0; 
 }
 
 .sidebar-toggle {
@@ -46,10 +46,10 @@
 
 @media (max-width: 768px) {
   .sidebar {
-    display: none; /* Hide sidebar by default */
+    display: none; 
   }
 
   .sidebar.open {
-    display: flex; /* Show sidebar when open */
+    display: flex; 
   }
 }

@@ -40,7 +40,8 @@ function App() {
   };
 
   const onNewSessionCreated = (newSession) => {
-    setSessions((prevSessions) => [newSession, ...prevSessions]);
+    setSessions((prevSessions) => [newSession, ...prevSessions]); // Add new session at the top
+    setSessionId(newSession.id); // Set the new session as active
   };
 
   const onDeleteSession = async (sessionIdToDelete) => {
@@ -117,7 +118,7 @@ function App() {
           updateLastMessage={updateLastMessage}
           sessionId={sessionId}
           setSessionId={setSessionId}
-          onNewSessionCreated={onNewSessionCreated}
+          onNewSessionCreated={onNewSessionCreated} // Pass the callback for new session creation
           messages={messages}
         />
       </div>

@@ -1,38 +1,42 @@
-/* Modal.css */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6); /* Dark background overlay */
+  background-color: rgba(0, 0, 0, 0.6); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Ensure it's above other content */
+  z-index: 9999; 
 }
 
 .modal-content {
-  background-color: #2c2c2e; /* Dark gray modal background */
+  background-color: #2c2c2e; 
   padding: 20px;
   border-radius: 12px;
   width: 400px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: #fff; /* White text */
+  color: #fff; 
+}
+
+.modal-content h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
 }
 
 .modal-content p {
   margin-bottom: 20px;
-  color: #a1a1a3; /* Lighter gray for the body text */
+  color: #a1a1a3; 
 }
 
 .modal-content p strong {
-  color: #ffffff; /* Strong text (e.g., session name) in white */
+  color: #ffffff; 
 }
 
 .modal-content p a {
-  color: #4d8af0; /* Blue color for the 'settings' link */
+  color: #4d8af0; 
   text-decoration: none;
 }
 
@@ -41,30 +45,43 @@
   justify-content: space-between;
 }
 
-.modal-cancel {
-  background-color: #3a3a3c; /* Dark gray for the cancel button */
-  color: #f5f5f7; /* Light text color */
-  border: none;
+.modal-cancel, .modal-confirm {
   padding: 10px 20px;
   border-radius: 8px;
-  cursor: pointer;
   font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.modal-cancel {
+  background-color: #3a3a3c; 
+  color: #f5f5f7; 
 }
 
 .modal-cancel:hover {
-  background-color: #48484a; /* Slightly lighter on hover */
+  background-color: #48484a; 
 }
 
-.modal-delete {
-  background-color: #ff453a; /* Red color for the delete button */
+.modal-delete, .modal-confirm {
+  background-color: #ff453a; 
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+}
+
+.modal-delete:hover, .modal-confirm:hover {
+  background-color: #d9362f; 
+}
+
+
+.modal-file-upload p {
+  text-align: left;
+  color: #a1a1a3;
   font-size: 14px;
 }
 
-.modal-delete:hover {
-  background-color: #d9362f; /* Darker red on hover */
+.modal-file-upload .modal-confirm {
+  background-color: #04AA6D; 
+}
+
+.modal-file-upload .modal-confirm:hover {
+  background-color: #05c67f; 
 }

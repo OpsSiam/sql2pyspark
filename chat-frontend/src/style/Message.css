@@ -1,9 +1,9 @@
-/* Existing Message Layout */
+
 .message {
   display: flex;
   margin-bottom: 15px;
-  padding: 0; /* Remove padding from the message container */
-  margin: 10px 0; /* Margin to separate messages */
+  padding: 0; 
+  margin: 10px 0; 
   max-width: 100%;
 }
 
@@ -17,7 +17,7 @@
 
 .message-header {
   display: flex;
-  align-items: flex-start; /* Align items to the top */
+  align-items: flex-start; 
 }
 
 .assistant-logo {
@@ -28,18 +28,18 @@
   border-radius: 50%;
   border: 1px solid #666666;
   display: inline-block;
-  margin-top: 0px; /* Adjust this value to fine-tune vertical alignment */
+  margin-top: 0px; 
 }
 
 .assistant-response {
-  flex: 1; /* Ensure the response text takes the remaining space */
+  flex: 1; 
 }
 
 .message-content {
   background-color: #1f1f1f;
   font-size: 16px;
   color: #e0e0e0;
-  padding: 12px 18px; /* Adjusted padding for a balanced look */
+  padding: 12px 18px; 
   border-radius: 10px;
   line-height: 1.8;
   word-wrap: break-word;
@@ -59,153 +59,153 @@
   margin-left: 0;
 }
 
-/* Ensure the pre and code block fit nicely within the message content */
+
 pre {
   background-color: #2d2d2d;
   padding: 12px;
-  border-radius: 0 0 12px 12px; /* Rounded corners match the message bubble */
+  border-radius: 0 0 12px 12px; 
   color: #f8f8f2;
   overflow-x: auto;
    font-family: 'Roboto', sans-serif;
   font-weight: 600;
   margin: 0;
-  box-shadow: none; /* Remove the shadow for pre elements */
-  white-space: pre-wrap; /* Allow wrapping for long lines */
+  box-shadow: none; 
+  white-space: pre-wrap; 
   word-wrap: break-word;
 }
 
 .message-content pre {
-  background-color: #1e1e1e; /* Slightly darker for contrast with the message content */
-  border-radius: 8px; /* Consistent corner radius for code blocks */
+  background-color: #1e1e1e; 
+  border-radius: 8px; 
 }
 
-/* Language-Specific Coloring */
 
-/* JavaScript */
+
+
 .language-javascript code {
   color: #f1e05a;
 }
 
-/* Python */
+
 .language-python code {
   color: #437cff;
 }
 
-/* Java */
+
 .language-java code {
   color: #b07219;
 }
 
-/* Ruby */
+
 .language-ruby code {
   color: #701516;
 }
 
-/* Go */
+
 .language-go code {
   color: #00ADD8;
 }
 
-/* HTML */
+
 .language-html code {
   color: #e34c26;
 }
 
-/* CSS */
+
 .language-css code {
   color: #563d7c;
 }
 
-/* SQL */
+
 .language-sql code {
   color: #c586c0;
 }
 
-/* C++ */
+
 .language-cpp code {
   color: #f34b7d;
 }
 
-/* C# */
+
 .language-csharp code {
   color: #178600;
 }
 
-/* PHP */
+
 .language-php code {
   color: #4F5D95;
 }
 
-/* TypeScript */
+
 .language-typescript code {
   color: #2b7489;
 }
 
-/* Shell */
+
 .language-shell code {
   color: #89e051;
 }
 
-/* Swift */
+
 .language-swift code {
   color: #ffac45;
 }
 
-/* Rust */
+
 .language-rust code {
   color: #dea584;
 }
 
-/* Kotlin */
+
 .language-kotlin code {
   color: #a97bff;
 }
 
-/* Perl */
+
 .language-perl code {
   color: #0298c3;
 }
 
-/* Dart */
+
 .language-dart code {
   color: #00B4AB;
 }
 
-/* Markdown */
+
 .language-markdown code {
   color: #083fa1;
 }
 
-/* Bash */
+
 .language-bash code {
   color: #89e051;
 }
 
-/* YAML */
+
 .language-yaml code {
   color: #cb171e;
 }
 
-/* JSON */
+
 .language-json code {
   color: #e44b23;
 }
 
-/* Powershell */
+
 .language-powershell code {
   color: #4a6bff;
 }
 
-/* Shell */
+
 .language-sh code {
   color: #a0e825;
 }
 
-/* Positioning for the copy button */
+
 .code-snippet-container {
-  position: relative; /* Make container relative to position the button */
+  position: relative; 
   margin: 10px 0;
-  max-width: 100%; /* Ensure code snippets don't overflow the message bubble */
+  max-width: 100%; 
 }
 
 .code-language-title {
@@ -219,7 +219,7 @@ pre {
   text-transform: capitalize;
 }
 
-/* Styling for the copy button */
+
 .copy-button {
   background-color: #1f1f1f;
   color: #f8f8f2;
@@ -240,7 +240,7 @@ pre {
 
 .copy-status {
   background-color: transparent;
-  color: #4caf50; /* Green color for the "Copied" status */
+  color: #4caf50; 
   font-size: 12px;
   margin-left: auto; 
    font-family: 'Roboto', sans-serif;
@@ -253,7 +253,7 @@ pre {
 }
 
 
-/* Styling for code blocks */
+
 pre {
   background-color: #2d2d2d;
   padding: 12px;
@@ -273,11 +273,11 @@ pre {
   border-radius: 8px;
 }
 
-/* Additional language styles omitted for brevity... */
+
 .code-header {
   display: flex;
-  justify-content: space-between; /* Align items horizontally */
-  align-items: center; /* Vertically align the title and button */
+  justify-content: space-between; 
+  align-items: center; 
   background-color: #2d2d2d;
   padding: 5px 10px;
   border-top-left-radius: 5px;
@@ -287,7 +287,7 @@ pre {
   text-transform: capitalize;
 }
 
-/* Style for tables */
+
 .table-container {
   overflow-x: auto;
   margin-top: 10px;
@@ -303,15 +303,15 @@ th, td {
   border: 1px solid #444;
   padding: 8px;
   text-align: left;
-  background-color: #202020; /* Background for table cells */
+  background-color: #202020; 
 }
 
 th {
-  background-color: #3b3b3b; /* Darker background for headers */
+  background-color: #3b3b3b; 
   font-weight: bold;
 
 }
 
 tr:nth-child(even) {
-  background-color: #1f1f1f; /* Alternating row colors for better readability */
+  background-color: #1f1f1f; 
 }

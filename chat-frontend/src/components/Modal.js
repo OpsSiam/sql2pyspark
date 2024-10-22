@@ -1,21 +1,41 @@
-// Modal.js
 import React from 'react';
 import '../style/Modal.css';
 
-function Modal({ isOpen, onClose, onConfirm, sessionName }) {
-  if (!isOpen) return null; // If the modal isn't open, return null (don't render)
+function Modal({ 
+  isOpen, 
+  onClose, 
+  onConfirm, 
+  sessionName = '',
+  fileNames = [],
+  type = 'delete',  
+}) {
+  if (!isOpen) return null; 
+
+  
+  const isFileUpload = type === 'upload';
+
+  let modalTitle = 'Delete chat?';
+  let modalMessage = `This will delete <strong>${sessionName}</strong>.`;
+  let confirmText = 'Delete';
+
+  
+  if (isFileUpload) {
+    modalTitle = 'Upload Files?';
+    modalMessage = `Are you sure you want to upload the following files? <br/><strong>${fileNames.join(', ')}</strong>`;
+    confirmText = 'Upload';
+  }
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Delete chat?</h2>
-        <p>This will delete <strong>{sessionName}</strong>.</p>
+      <div className={`modal-content ${isFileUpload ? 'modal-file-upload' : ''}`}>
+        <h2>{modalTitle}</h2>
+        <p dangerouslySetInnerHTML={{ __html: modalMessage }} />
         <div className="modal-actions">
           <button className="modal-cancel" onClick={onClose}>
             Cancel
           </button>
-          <button className="modal-delete" onClick={onConfirm}>
-            Delete
+          <button className={`modal-confirm ${isFileUpload ? 'modal-confirm' : 'modal-delete'}`} onClick={onConfirm}>
+            {confirmText}
           </button>
         </div>
       </div>
