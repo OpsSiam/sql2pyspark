@@ -1,8 +1,6 @@
-// db/setup.js
 const db = require('./database');
 
 db.serialize(() => {
-  // Modify the sessions table to include a title column
   db.run(`
     CREATE TABLE IF NOT EXISTS sessions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,7 +9,6 @@ db.serialize(() => {
     )
   `);
 
-  // Create messages table if it doesn't exist
   db.run(`
     CREATE TABLE IF NOT EXISTS messages (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

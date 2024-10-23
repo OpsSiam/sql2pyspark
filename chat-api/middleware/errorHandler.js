@@ -1,5 +1,4 @@
-// middleware/errorHandler.js
-exports.errorHandler = (err, req, res, next) => {
+exports.errorHandler = (err, res) => {
     console.error(err.stack);
     res.status(500).json({
       message: 'Internal Server Error',

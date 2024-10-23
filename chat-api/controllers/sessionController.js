@@ -1,27 +1,23 @@
-// controllers/sessionController.js
 const db = require('../db/database');
 
-// Create a new session
 exports.createSession = (req, res) => {
   const { title } = req.body;
-  const createdAt = new Date().toISOString(); // Get the current time in ISO format
+  const createdAt = new Date().toISOString(); 
 
-  // Insert the new session with the created_at timestamp
   db.run(
     'INSERT INTO sessions (title, created_at) VALUES (?, ?)',
     [title, createdAt],
+    
     function (err) {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {
-        res.json({ id: this.lastID, title, created_at: createdAt }); // Return the new session ID, title, and timestamp
+        res.json({ id: this.lastID, title, created_at: createdAt }); 
       }
     }
   );
 };
 
-
-// Get all sessions
 exports.getSessions = (req, res) => {
   db.all('SELECT * FROM sessions ORDER BY created_at DESC', [], (err, rows) => {
     if (err) {
@@ -32,43 +28,38 @@ exports.getSessions = (req, res) => {
   });
 };
 
-// Delete a session
 exports.deleteSession = (req, res) => {
   const sessionId = req.params.sessionId;
 
   db.serialize(() => {
-    // Delete messages associated with the session
     db.run('DELETE FROM messages WHERE session_id = ?', [sessionId], function (err) {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
 
-      // Delete the session
       db.run('DELETE FROM sessions WHERE id = ?', [sessionId], function (err) {
         if (err) {
           return res.status(500).json({ error: err.message });
         }
-
         res.json({ message: 'Session deleted successfully' });
       });
     });
   });
 };
 
-// Rename a session
+
 exports.renameSession = (req, res) => {
   const sessionId = req.params.id;
-  const { title } = req.body; // Extract the new title from the request body
+  const { title } = req.body; 
 
-  // Ensure that a non-empty title is provided
   if (!title || title.trim() === '') {
     return res.status(400).json({ error: 'Title is required' });
   }
 
-  // Update the session title in the database
   db.run(
     'UPDATE sessions SET title = ? WHERE id = ?',
     [title, sessionId],
+
     function (err) {
       if (err) {
         res.status(500).json({ error: err.message });
