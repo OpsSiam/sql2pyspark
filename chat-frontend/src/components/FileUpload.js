@@ -70,7 +70,7 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
       if (!currentSessionId) {
         try {
           const response = await axios.post(`${API_BASE_URL}/api/sessions`, {
-            title: `Uploaded files`,
+            title: `Uploaded file: ${filesToUpload[0].name}`,
           });
           currentSessionId = response.data.id;
           setSessionId(currentSessionId);
