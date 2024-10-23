@@ -12,8 +12,6 @@ function App() {
   const [sessionId, setSessionId] = useState(null);
   const [sessions, setSessions] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [sessionToDelete, setSessionToDelete] = useState(null);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -40,8 +38,8 @@ function App() {
   };
 
   const onNewSessionCreated = (newSession) => {
-    setSessions((prevSessions) => [newSession, ...prevSessions]); // Add new session at the top
-    setSessionId(newSession.id); // Set the new session as active
+    setSessions((prevSessions) => [newSession, ...prevSessions]);
+    setSessionId(newSession.id);
   };
 
   const onDeleteSession = async (sessionIdToDelete) => {
@@ -54,7 +52,6 @@ function App() {
         setMessages([]);
         setSessionId(null);
       }
-      setModalOpen(false); // Close the modal after deletion
     } catch (error) {
       console.error('Error deleting session:', error);
     }
@@ -89,11 +86,6 @@ function App() {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const openDeleteModal = (session) => {
-    setSessionToDelete(session);
-    setModalOpen(true);
-  };
-
   return (
     <div className={`app ${isSidebarOpen ? 'sidebar-open' : ''}`}>
       <button className="toggle-sidebar-button" onClick={toggleSidebar}>
@@ -107,7 +99,7 @@ function App() {
           setMessages([]);
           setSessionId(null);
         }}
-        onDeleteSession={onDeleteSession} // Use openDeleteModal here
+        onDeleteSession={onDeleteSession} 
         onRenameSession={onRenameSession}
         isOpen={isSidebarOpen}
       />
@@ -118,7 +110,7 @@ function App() {
           updateLastMessage={updateLastMessage}
           sessionId={sessionId}
           setSessionId={setSessionId}
-          onNewSessionCreated={onNewSessionCreated} // Pass the callback for new session creation
+          onNewSessionCreated={onNewSessionCreated}
           messages={messages}
         />
       </div>

@@ -13,24 +13,24 @@ export const sendMessage = async ({
   addMessage,
   updateLastMessage,
   messages,
-  onNewSessionCreated, // Add callback for new session creation
+  onNewSessionCreated, 
 }) => {
   if (content.trim() === '') return;
 
   let currentSessionId = providedSessionId || sessionId;
 
-  // Create a new session if none exists
+  
   if (!currentSessionId) {
     try {
       const response = await fetch(`${API_BASE_URL}/api/sessions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: content }), // First message is the session title
+        body: JSON.stringify({ title: content }), 
       });
       const sessionData = await response.json();
       currentSessionId = sessionData.id;
-      setSessionId(currentSessionId); // Set the new session ID
-      onNewSessionCreated(sessionData); // Trigger the callback to notify App.js of new session
+      setSessionId(currentSessionId); 
+      onNewSessionCreated(sessionData); 
     } catch (error) {
       console.error('Error creating session:', error);
       return;
@@ -38,7 +38,7 @@ export const sendMessage = async ({
   }
 
   const userMessage = { role: 'user', content };
-  addMessage(userMessage); // Immediately add user's message
+  addMessage(userMessage); 
 
   let assistantContent = '';
   addMessage({ role: 'assistant', content: assistantContent });
@@ -104,19 +104,19 @@ function MessageInput({
 
   const handleSendMessage = async () => {
     if (input.trim()) {
-      const messageToSend = input; // Capture the input value immediately.
-      setInput(''); // Clear the input field right away for immediate UI update.
-      resetTextarea(); // Reset the textarea size immediately.
+      const messageToSend = input; 
+      setInput(''); 
+      resetTextarea(); 
 
       setIsSending(true);
       await sendMessage({
-        content: messageToSend, // Send the captured message.
+        content: messageToSend, 
         sessionId,
         setSessionId,
         addMessage,
         updateLastMessage,
         messages,
-        onNewSessionCreated, // Pass the session creation callback
+        onNewSessionCreated, 
       });
       setIsSending(false);
     }
@@ -136,14 +136,14 @@ function MessageInput({
 
   const expandTextarea = () => {
     if (inputRef.current) {
-      inputRef.current.style.height = '18px'; // Set to initial height.
-      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`; // Adjust height based on content.
+      inputRef.current.style.height = '18px'; 
+      inputRef.current.style.height = `${inputRef.current.scrollHeight}px`; 
     }
   };
 
   const resetTextarea = () => {
     if (inputRef.current) {
-      inputRef.current.style.height = '18px'; // Reset to the initial height.
+      inputRef.current.style.height = '18px'; 
     }
   };
 

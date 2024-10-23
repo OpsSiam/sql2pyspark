@@ -1,4 +1,4 @@
-// Message.js
+
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import '../style/Message.css';
@@ -21,22 +21,22 @@ function Message({ message }) {
   };
 
   const formatMessage = (content, role) => {
-    // If the message is from the user, display it as plain text with markdown support for line breaks.
+    
     if (role === 'user') {
       return (
         <ReactMarkdown
           key="user-message"
           children={content}
-          remarkPlugins={[remarkGfm]} // Enables support for tables and other GitHub-flavored markdown.
+          remarkPlugins={[remarkGfm]} 
           components={{
-            // Customize rendering to respect line breaks for user input.
+            
             p: ({ children }) => <p style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{children}</p>,
           }}
         />
       );
     }
 
-    // Process code snippets only for assistant messages.
+    
     const parts = content.split(/(```[\s\S]*?```)/);
     return parts.map((part, index) => {
       if (part.startsWith('```') && part.endsWith('```')) {
@@ -74,7 +74,7 @@ function Message({ message }) {
           <ReactMarkdown
             key={index}
             children={part}
-            remarkPlugins={[remarkGfm]} // Enables table rendering
+            remarkPlugins={[remarkGfm]} 
             components={{
               table: ({ children }) => (
                 <div className="table-container">

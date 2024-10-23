@@ -3,14 +3,14 @@ import axios from 'axios';
 import '../style/FileUpload.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
-import Modal from './Modal'; // Import Modal
+import Modal from './Modal'; 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, onNewSessionCreated }) {
   const [isSending, setIsSending] = useState(false);
-  const [filesToUpload, setFilesToUpload] = useState([]); // State for holding selected files
-  const [isModalOpen, setIsModalOpen] = useState(false); // Control modal state
+  const [filesToUpload, setFilesToUpload] = useState([]); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const supportedFileTypes = [
     'text/plain',
@@ -37,14 +37,14 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
   ];
 
   const handleFileSelection = (event) => {
-    const files = Array.from(event.target.files).slice(0, 3); // Limit to 3 files
-    setFilesToUpload(files); // Store selected files
-    setIsModalOpen(true); // Open the modal for confirmation
+    const files = Array.from(event.target.files).slice(0, 3); 
+    setFilesToUpload(files); 
+    setIsModalOpen(true); 
   };
 
   const handleConfirmUpload = () => {
-    setIsModalOpen(false); // Close the modal
-    handleFileUpload(); // Proceed with the file upload
+    setIsModalOpen(false); 
+    handleFileUpload(); 
   };
 
   const handleFileUpload = async () => {
@@ -172,8 +172,8 @@ function FileUpload({ sessionId, addMessage, setSessionId, updateLastMessage, on
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={handleConfirmUpload}
-        fileNames={filesToUpload.map(file => file.name)} // Pass file names to modal
-        type="upload" // Set modal type to upload
+        fileNames={filesToUpload.map(file => file.name)} 
+        type="upload" 
       />
     </div>
   );
